@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED 
 pragma solidity >=0.4.22 <0.9.0;
 
-uint256 constant TOTAL_TICKETS = 10;
-
 contract Tickets {
   address public owner = msg.sender;
 
@@ -10,6 +8,8 @@ contract Tickets {
     uint256 price;
     address owner;
   }
+
+  uint256 public constant TOTAL_TICKETS = 10;
 
   Ticket[TOTAL_TICKETS] public tickets;
 
