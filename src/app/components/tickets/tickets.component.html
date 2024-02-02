@@ -1,0 +1,9 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div id="tickets">
+                <app-ticket *ngFor="let ticket of tickets" [ticket]="ticket" (ticketBought)="refreshTickets()"></app-ticket>
+            </div>
+        </div>
+    </div>
+</div>

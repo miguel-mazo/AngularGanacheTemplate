@@ -12,6 +12,8 @@
       "os": ["./node_modules/os-browserify"],
       "process": ["./node_modules/process/browser"]
     },
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,

@@ -1,0 +1,9 @@
+<div *ngIf="ticket.owner === '0x0000000000000000000000000000000000000000'" class="ticket card" style="width: 18rem;">
+    <img src="assets/images/ticket.png" class="card-img-top" alt="...">
+    <div class="card-body">
+        <h5 class="card-title">Ticket</h5>
+        <p class="card-text">{{ ticket.price / 1e18 }} Eth</p>
+        <p class="card-text">{{ ticket.id }} </p>
+        <button class="btn btn-primary" (click)="buyTicket()">Buy Ticket</button>
+    </div>
+</div>
