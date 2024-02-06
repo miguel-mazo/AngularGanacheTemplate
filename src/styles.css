@@ -1,4 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
 #header {
     margin-bottom: 20px;
 }
@@ -11,4 +21,57 @@
 .ticket {
     display: inline-block;
     margin-bottom: 20px;
+}
+
+h1 {
+    padding: 0 1rem;
+}
+
+h2 {
+    padding: 1rem;
+}
+
+mat-toolbar {
+    position: fixed;
+    top: 0;
+    z-index: 2;
+}
+
+mat-sidenav-container {
+    height: 100%;
+}
+
+/* Mueve el contenido hacia abajo para que no sea ocultado por la barra de herramientas */
+mat-sidenav {
+    padding-top: 3.5rem;
+    transition: width 0.3s ease;
+}
+
+@media screen and (min-width: 600px) {
+    mat-sidenav {
+        padding-top: 4rem;
+    }
+}
+
+/* Mueve el contenido hacia abajo para que no sea ocultado por la barra de herramientas */
+mat-sidenav-content {
+    padding-top: 3.5rem;
+}
+
+@media screen and (min-width: 600px) {
+    mat-sidenav-content {
+        padding-top: 4rem;
+    }
+}
+
+.expanded {
+    width: 250px;
+}
+
+/* Estilos específicos para la clase .entry dentro de mat-sidenav */
+mat-sidenav .entry {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem;
 }
