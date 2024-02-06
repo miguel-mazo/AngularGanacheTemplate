@@ -36,5 +36,6 @@ export class AppComponent implements OnInit {
     const accounts = await this.web3Service.requestAccounts();    
     // Do something with the accounts if needed
     this.account = accounts[0];
+    console.log("Cuenta: ", accounts)
   }
 }
