@@ -15,6 +15,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -34,7 +36,9 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
     MatIconModule,
     MatListModule,
     MatSidenavModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatTooltipModule,
+    MatCardModule
   ],
   providers: [Web3Service],
   bootstrap: [AppComponent]

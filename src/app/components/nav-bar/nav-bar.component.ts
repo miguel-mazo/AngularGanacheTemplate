@@ -13,7 +13,8 @@ export class NavBarComponent implements OnInit {
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
   isMobile= true;
-  isCollapsed = true;
+  isCollapsed = false;
+  isVenderVehiculo = false;
 
   constructor(private observer: BreakpointObserver) { }
 

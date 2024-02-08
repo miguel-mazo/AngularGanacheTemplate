@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Web3Service } from './services/web3.service';
 // import Web3 from 'web3';
 
@@ -12,7 +12,8 @@ export class AppComponent implements OnInit {
   account: any;
   // private web3: Web3;
 
-  constructor(private web3Service: Web3Service) {
+  constructor(private cdr: ChangeDetectorRef, private web3Service: Web3Service) {
+    this.web3Service.handleAccountsChanged()
     // this.web3 = new Web3("http://127.0.0.1:8545");
     // const accountsTemp = this.web3.eth.getAccounts();
     // console.log("Accounts temp: ", accountsTemp);
@@ -30,12 +31,17 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.initializeWeb3();
+
+    this.web3Service.addressUser.subscribe((res: string) => {
+      this.account = res;
+      this.cdr.detectChanges();
+    });
   }
 
   private async initializeWeb3() {
-    const accounts = await this.web3Service.requestAccounts();    
+    // const accounts = await this.web3Service.requestAccounts();    
     // Do something with the accounts if needed
-    this.account = accounts[0];
-    console.log("Cuenta: ", accounts)
+    // this.account = accounts[0];
+    this.account = await this.web3Service.getAccount();
   }
 }
