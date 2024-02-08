@@ -17,9 +17,9 @@ export class TicketComponent {
     // You can use this.ticket to access the ticket details
     const contract = this.web3Service.getContract();
     
-    const accounts = await this.web3Service.requestAccounts();    
+    // const accounts = await this.web3Service.requestAccounts();    
     // Do something with the accounts if needed
-    this.account = accounts[0];
+    this.account =  await this.web3Service.getAccount();
 
     await contract.methods.buyTicket(this.ticket.id).send({ 
       from: this.account,
