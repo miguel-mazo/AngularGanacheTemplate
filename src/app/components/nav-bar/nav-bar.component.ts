@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { CuentasAdministradoras } from 'src/assets/constantes/cuentas-administradoras.constants';
 
 @Component({
   selector: 'app-nav-bar',
@@ -15,6 +16,8 @@ export class NavBarComponent implements OnInit {
   isMobile= true;
   isCollapsed = false;
   isVenderVehiculo = false;
+  
+  @Input() esAdministrador!: boolean;
 
   constructor(private observer: BreakpointObserver) { }
 
