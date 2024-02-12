@@ -138,18 +138,6 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Cilindraje</mat-label>
-        <input matInput placeholder="Cilindraje"  formControlName="cilindraje" required>
-        <mat-error *ngIf="formulario.get('cilindraje')!.hasError('required')">
-          {{ ERROR_CAMPO_OBLIGATORIO }}
-        </mat-error>
-      </mat-form-field>
-
-    </div>
-
-    <div class="form-row">
-
-      <mat-form-field appearance="outline">
         <mat-label>Servicio</mat-label>
         <mat-select placeholder="Seleccione un servicio" formControlName="servicio" required>
           <mat-option *ngFor="let servicio of servicios" [value]="servicio">{{servicio}}</mat-option>
@@ -159,6 +147,10 @@
         </mat-error>
       </mat-form-field>
 
+    </div>
+
+    <div class="form-row">
+
       <mat-form-field appearance="outline">
         <mat-label>Carrocería</mat-label>
         <input matInput placeholder="Carrocería"  formControlName="carroceria" required>
@@ -167,6 +159,8 @@
         </mat-error>
       </mat-form-field>
       
+      <div class="empty-space"></div>
+
       <div class="empty-space"></div>
 
     </div>
