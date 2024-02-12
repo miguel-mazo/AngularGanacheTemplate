@@ -19,6 +19,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
 import { VenderComponent } from './components/vender/vender.component';
 import { RegistrarComponent } from './components/registrar/registrar.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
@@ -30,7 +34,7 @@ import { RegistrarComponent } from './components/registrar/registrar.component';
     TicketsComponent,
     NavBarComponent,
     VenderComponent,
-    RegistrarComponent
+    RegistrarComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +46,12 @@ import { RegistrarComponent } from './components/registrar/registrar.component';
     MatSidenavModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatCardModule
+    MatCardModule,
+    MatInputModule,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatSelectModule
   ],
   providers: [Web3Service],
   bootstrap: [AppComponent]

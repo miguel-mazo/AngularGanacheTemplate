@@ -19,7 +19,7 @@ export class Web3Service {
     this.web3 = new Web3(Web3.givenProvider || 'http://127.0.0.1:8545');
   }
 
-  async desplegarContracto(){
+  async desplegarContrato(){
 
     const contrato = this.obtenerContratoConABI();
     try {
