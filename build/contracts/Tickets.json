@@ -17,7 +17,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -30,7 +31,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -54,7 +56,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -67,7 +70,8 @@
       "name": "buyTicket",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function"
+      "type": "function",
+      "payable": true
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.8.0+commit.c7dfd78e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"TOTAL_TICKETS\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_index\",\"type\":\"uint256\"}],\"name\":\"buyTicket\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"tickets\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Tickets.sol\":\"Tickets\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Tickets.sol\":{\"keccak256\":\"0xeaf5cd0b260ce397b53ec8a89a1e27a1786e1ab5c9e9550d225296346b8a3f1d\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://0d2110f5a4a2b7bb630f70d21d61acb5b7f77b893b038bd18bc8de7b129ac17e\",\"dweb:/ipfs/QmQQRcnutEXrTSqyCcfNryrBzjBrapWHsuG121pmJ6Z2Bu\"]}},\"version\":1}",
@@ -2684,12 +2688,13 @@
     "1337": {
       "events": {},
       "links": {},
-      "address": "0x72e0FeB164f4AF48dE9be28FDD920924F58FA8CC",
-      "transactionHash": "0xf615720ddd59577778c39366f983fa628d7c781c7896538f0466181f3e1702cb"
+      "address": "0xb0D66F1243493c45a0C6838660D322A138e0406b",
+      "transactionHash": "0xeb5bcaa95ec8015ea1414919dac532447637272d5a3ad00f2721617e3bb4c28f"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2024-02-09T19:54:51.542Z",
+  "updatedAt": "2024-02-15T02:16:10.271Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {},

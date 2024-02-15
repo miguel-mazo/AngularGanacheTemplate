@@ -23,6 +23,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import { NgxUiLoaderModule, NgxUiLoaderRouterModule } from 'ngx-ui-loader';
 
 
 @NgModule({
@@ -51,7 +52,9 @@ import { MatSelectModule } from '@angular/material/select';
     MatFormFieldModule,
     FormsModule,
     ReactiveFormsModule,
-    MatSelectModule
+    MatSelectModule,
+    NgxUiLoaderModule,
+    NgxUiLoaderRouterModule
   ],
   providers: [Web3Service],
   bootstrap: [AppComponent]

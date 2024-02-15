@@ -15,7 +15,7 @@ export class TicketComponent {
   async buyTicket() {
     // Call the buyTicket method from the parent component or handle the purchase logic here
     // You can use this.ticket to access the ticket details
-    const contract = this.web3Service.getContract();
+    const contract = this.web3Service.obtenerContratoPorDireccion();
     
     // const accounts = await this.web3Service.requestAccounts();    
     // Do something with the accounts if needed

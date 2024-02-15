@@ -34,14 +34,6 @@
     <div class="form-row">
 
       <mat-form-field appearance="outline">
-        <mat-label>Número de serie</mat-label>
-        <input matInput placeholder="Número de serie"  formControlName="numeroSerie" required>
-        <mat-error *ngIf="formulario.get('numeroSerie')!.hasError('required')">
-          {{ ERROR_CAMPO_OBLIGATORIO }}
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
         <mat-label>VIN</mat-label>
         <input matInput placeholder="VIN"  formControlName="VIN" required>
         <mat-error *ngIf="formulario.get('VIN')!.hasError('required')">
@@ -57,10 +49,6 @@
         </mat-error>
       </mat-form-field>
 
-    </div>
-
-    <div class="form-row">
-
       <mat-form-field appearance="outline">
         <mat-label>Clase</mat-label>
         <mat-select placeholder="Seleccione una clase" formControlName="clase" required>
@@ -70,6 +58,10 @@
           {{ ERROR_CAMPO_OBLIGATORIO }}
         </mat-error>
       </mat-form-field>
+
+    </div>
+
+    <div class="form-row">
 
       <mat-form-field appearance="outline">
         <mat-label>Línea</mat-label>
@@ -87,10 +79,6 @@
         </mat-error>
       </mat-form-field>
 
-    </div>
-
-    <div class="form-row">
-
       <mat-form-field appearance="outline">
         <mat-label>Color</mat-label>
         <input matInput placeholder="Color"  formControlName="color" required>
@@ -98,6 +86,10 @@
           {{ ERROR_CAMPO_OBLIGATORIO }}
         </mat-error>
       </mat-form-field>
+
+    </div>
+
+    <div class="form-row">
 
       <mat-form-field appearance="outline">
         <mat-label>Combustible</mat-label>
@@ -117,10 +109,6 @@
         </mat-error>
       </mat-form-field>
 
-    </div>
-
-    <div class="form-row">
-
       <mat-form-field appearance="outline">
         <mat-label>Potencia</mat-label>
         <input matInput placeholder="Potencia"  formControlName="potencia" required>
@@ -128,6 +116,10 @@
           {{ ERROR_CAMPO_OBLIGATORIO }}
         </mat-error>
       </mat-form-field>
+
+    </div>
+
+    <div class="form-row">
 
       <mat-form-field appearance="outline">
         <mat-label>Capacidad</mat-label>
@@ -147,10 +139,6 @@
         </mat-error>
       </mat-form-field>
 
-    </div>
-
-    <div class="form-row">
-
       <mat-form-field appearance="outline">
         <mat-label>Carrocería</mat-label>
         <input matInput placeholder="Carrocería"  formControlName="carroceria" required>
@@ -158,10 +146,6 @@
           {{ ERROR_CAMPO_OBLIGATORIO }}
         </mat-error>
       </mat-form-field>
-      
-      <div class="empty-space"></div>
-
-      <div class="empty-space"></div>
 
     </div>
 
