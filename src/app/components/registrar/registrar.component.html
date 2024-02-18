@@ -1,7 +1,32 @@
-<form [formGroup]="formulario" (ngSubmit)="enviarFormulario()">  
+<form [formGroup]="formularioConsultaContrato" (ngSubmit)="enviarFormularioConsultaContrato()">
   <div class="form-container">
+      <h2 class="form-title">Ingrese la dirección del contrato para registrar el vehículo:</h2>
+      <div class="form-row">
+          <mat-form-field appearance="outline">
+              <mat-label>Dirección del contrato</mat-label>
+              <input matInput placeholder="Dirección del vehículo" formControlName="token" required>
+              <mat-error *ngIf="formularioConsultaContrato.get('token')!.hasError('required')">
+                  {{ ERROR_CAMPO_OBLIGATORIO }}
+              </mat-error>
+          </mat-form-field>
+      </div>
 
-    <h2 class="form-title">Datos del vehículo</h2>
+      <div class="form-row">
+
+          <div class="empty-space"></div>
+
+          <button class="btn btn-primary" type="submit">Consultar contrato</button>
+
+          <div class="empty-space"></div>
+
+      </div>
+  </div>
+</form>
+
+<form [formGroup]="formulario" (ngSubmit)="enviarFormularioDatosVehiculo()">  
+  <div class="form-container" *ngIf="contratoExistente">
+
+    <h2 class="form-title">Datos del vehículo a registrar</h2>
 
     <div class="form-row">
 
@@ -42,19 +67,19 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Marca</mat-label>
-        <input matInput placeholder="Marca"  formControlName="marca" required>
-        <mat-error *ngIf="formulario.get('marca')!.hasError('required')">
-          {{ ERROR_CAMPO_OBLIGATORIO }}
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
         <mat-label>Clase</mat-label>
         <mat-select placeholder="Seleccione una clase" formControlName="clase" required>
           <mat-option *ngFor="let clase of clases" [value]="clase">{{clase}}</mat-option>
         </mat-select>
         <mat-error *ngIf="formulario.get('clase')!.hasError('required')">
+          {{ ERROR_CAMPO_OBLIGATORIO }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Marca</mat-label>
+        <input matInput placeholder="Marca"  formControlName="marca" required>
+        <mat-error *ngIf="formulario.get('marca')!.hasError('required')">
           {{ ERROR_CAMPO_OBLIGATORIO }}
         </mat-error>
       </mat-form-field>
@@ -153,7 +178,24 @@
       
       <div class="empty-space"></div>
 
-      <button class="btn btn-primary" type="submit">Registrar</button>
+      <mat-form-field appearance="outline">
+        <mat-label>Precio</mat-label>
+        <input matInput type="number" placeholder="Precio" formControlName="precio" required>
+        <span matSuffix>ETH</span> <!-- Aquí se muestra la unidad ETH -->
+        <mat-error *ngIf="formulario.get('precio')!.hasError('required')">
+          {{ ERROR_CAMPO_OBLIGATORIO }}
+        </mat-error>
+      </mat-form-field>
+
+      <div class="empty-space"></div>
+
+    </div>
+
+    <div class="form-row">
+      
+      <div class="empty-space"></div>
+
+      <button class="btn btn-primary" type="submit">Registrar vehículo</button>
 
       <div class="empty-space"></div>
 

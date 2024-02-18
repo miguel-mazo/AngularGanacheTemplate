@@ -24,6 +24,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { NgxUiLoaderModule, NgxUiLoaderRouterModule } from 'ngx-ui-loader';
+import { ComprarComponent } from './components/comprar/comprar.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { NgxUiLoaderModule, NgxUiLoaderRouterModule } from 'ngx-ui-loader';
     NavBarComponent,
     VenderComponent,
     RegistrarComponent,
+    ComprarComponent,
   ],
   imports: [
     BrowserModule,

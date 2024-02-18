@@ -1,0 +1,152 @@
+<form [formGroup]="formularioComprar" (ngSubmit)="enviarFormulario()">
+    <div class="form-container">
+        <h2 class="form-title">Ingrese el token del vehículo a comprar:</h2>
+        <div class="form-row">
+            <mat-form-field appearance="outline">
+                <mat-label>Token del vehículo</mat-label>
+                <input matInput placeholder="Token del vehículo" formControlName="token" required>
+                <mat-error *ngIf="formularioComprar.get('token')!.hasError('required')">
+                    {{ ERROR_CAMPO_OBLIGATORIO }}
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="form-row">
+
+            <div class="empty-space"></div>
+
+            <button class="btn btn-primary" type="submit">Consultar</button>
+
+            <div class="empty-space"></div>
+
+        </div>
+    </div>
+</form>
+
+<div class="form-container" *ngIf="vehiculoExistente">
+
+    <h2 class="form-title">Datos del vehículo</h2>
+
+    <div class="form-row">
+
+        <mat-form-field appearance="outline">
+            <mat-label>Placa</mat-label>
+            <input matInput placeholder="Placa" [value]="datosBasicosVehiculo[0]" [readonly]="true">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Número de motor</mat-label>
+            <input matInput placeholder="Número de motor"
+                [value]="datosBasicosVehiculo[1]" [readonly]="true">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Número de chasis</mat-label>
+            <input matInput placeholder="Número de chasis"
+                [value]="datosBasicosVehiculo[2]" [readonly]="true">
+        </mat-form-field>
+
+    </div>
+
+    <div class="form-row">
+
+        <mat-form-field appearance="outline">
+            <mat-label>VIN</mat-label>
+            <input matInput placeholder="VIN" [value]="datosBasicosVehiculo[3]" [readonly]="true">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Clase</mat-label>
+            <input matInput placeholder="VIN" [value]="datosBasicosVehiculo[4]" [readonly]="true">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Marca</mat-label>
+            <input matInput placeholder="Marca" [value]="datosBasicosVehiculo[5]" [readonly]="true">
+        </mat-form-field>
+
+    </div>
+
+    <div class="form-row">
+
+        <mat-form-field appearance="outline">
+            <mat-label>Línea</mat-label>
+            <input matInput placeholder="Línea" [value]="datosBasicosVehiculo[6]" [readonly]="true">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Modelo</mat-label>
+            <input matInput placeholder="Modelo"  [value]="datosBasicosVehiculo[7]"
+                [readonly]="true">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Color</mat-label>
+            <input matInput placeholder="Color"  [value]="datosBasicosVehiculo[8]" [readonly]="true">
+        </mat-form-field>
+
+    </div>
+
+    <div class="form-row">
+
+        <mat-form-field appearance="outline">
+            <mat-label>Combustible</mat-label>
+            <input matInput placeholder="Combustible" [value]="detallesVehiculo[0]"
+                [readonly]="true">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Cilindraje</mat-label>
+            <input matInput placeholder="Cilindraje" [value]="detallesVehiculo[1]"
+                [readonly]="true">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Potencia</mat-label>
+            <input matInput placeholder="Potencia" [value]="detallesVehiculo[2]"
+                [readonly]="true">
+        </mat-form-field>
+
+    </div>
+
+    <div class="form-row">
+
+        <mat-form-field appearance="outline">
+            <mat-label>Capacidad</mat-label>
+            <input matInput placeholder="Capacidad" [value]="detallesVehiculo[3]"
+                [readonly]="true">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Servicio</mat-label>
+            <input matInput placeholder="Servicio" [value]="detallesVehiculo[4]"
+                [readonly]="true">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Carrocería</mat-label>
+            <input matInput placeholder="Carrocería" [value]="detallesVehiculo[5]"
+                [readonly]="true">
+        </mat-form-field>
+
+    </div>
+
+    <div class="form-row">
+
+        <mat-form-field appearance="outline">
+            <mat-label>Fecha de matrícula</mat-label>
+            <input matInput placeholder="Fecha de matrícula" [value]="fechaMatricula"
+                [readonly]="true">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Dirección de cuenta de organismo de tránsito</mat-label>
+            <input matInput placeholder="Dirección de cuenta de organismo de tránsito" [value]="datosBasicosVehiculo[10]"
+                [readonly]="true">
+        </mat-form-field>
+
+        <div class="empty-space"></div>
+
+    </div>
+
+</div>

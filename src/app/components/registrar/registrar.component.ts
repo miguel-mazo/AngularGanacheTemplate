@@ -6,6 +6,7 @@ import { CLASES_CONSTANTS } from 'src/assets/constantes/clases.constants';
 import { COMBUSTUBLES_CONSTANTS } from 'src/assets/constantes/combustibles.constants';
 import { CAMPO_OBLIGATORIO } from 'src/assets/constantes/errores.constants';
 import { SERVICIOS_CONSTANTS } from 'src/assets/constantes/servicios.constants';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-registrar',
@@ -15,6 +16,12 @@ import { SERVICIOS_CONSTANTS } from 'src/assets/constantes/servicios.constants';
 export class RegistrarComponent implements OnInit {
 
   formulario!: FormGroup;
+  formularioConsultaContrato!: FormGroup;
+
+  tokenContrato: string = '';
+  contrato: any;
+
+  contratoExistente = false;
 
   vehiculo: Vehiculo = {
     placa: '',
@@ -45,7 +52,7 @@ export class RegistrarComponent implements OnInit {
     this.construirFormulario();
   }
 
-  async enviarFormulario() {
+  async enviarFormularioDatosVehiculo() {
     if (this.formulario.valid) {
       // Lógica para manejar la presentación del formulario
       console.log('Formulario válido. Datos:', this.formulario.value);
@@ -57,18 +64,75 @@ export class RegistrarComponent implements OnInit {
     }
   }
 
+  async enviarFormularioConsultaContrato() {
+    if (this.formularioConsultaContrato.valid) {
+      this.contratoExistente = false;
+      this.vehiculo = {
+        placa: '',
+        numeroMotor: '',
+        numeroChasis: '',
+        VIN: '',
+        marca: '',
+        clase: '',
+        linea: '',
+        modelo: '',
+        color: '',
+        cilindraje: '',
+        potencia: '',
+        capacidad: '',
+        servicio: '',
+        carroceria: '',
+        combustible: '',
+      };
+      // Lógica para manejar la presentación del formulario
+      console.log('Formulario válido. Token:', this.formularioConsultaContrato.value);
+      // Agrega aquí la lógica para enviar o procesar los datos
+      const token =  this.formularioConsultaContrato.get('token');
+      this.tokenContrato = token?.value
+      this.consultarContrato();
+    }
+  }
+
+  async consultarContrato(){
+
+    try {
+      this.contrato = this.web3Service.obtenerContratoPorDireccionIngresada(this.tokenContrato);
+      console.log("Contrato: ", this.contrato)
+      const cantidadPropietariosContrato = await this.contrato.methods.obtenerTamanoHistorial().call();
+      console.log("cantidad propietarios:", cantidadPropietariosContrato)      
+
+      this.contratoExistente = true;
+    } catch (error) {
+      this.contratoExistente = false;
+      this.vehiculo = {
+        placa: '',
+        numeroMotor: '',
+        numeroChasis: '',
+        VIN: '',
+        marca: '',
+        clase: '',
+        linea: '',
+        modelo: '',
+        color: '',
+        cilindraje: '',
+        potencia: '',
+        capacidad: '',
+        servicio: '',
+        carroceria: '',
+        combustible: '',
+      };
+      Swal.fire({
+        icon: 'error',
+        title: '¡Contrato no creado!',
+        text: 'El contrato con dirección ' + this.tokenContrato + ' aún no ha sido creado'
+      });
+      // console.error('Error al obtener datos del vehículo:', error);
+    }
+  }
+
   async registrarVehiculo(){
     this.web3Service.llenarDatosVehiculo(this.vehiculo);
   }
-
-  // obtenerFechaActual(): string {
-  //   const fechaActual = new Date();
-  //   const dia = fechaActual.getDate().toString().padStart(2, '0');
-  //   const mes = (fechaActual.getMonth() + 1).toString().padStart(2, '0'); // Los meses en JavaScript son de 0 a 11
-  //   const anio = fechaActual.getFullYear().toString();
-  
-  //   return `${dia}/${mes}/${anio}`;
-  // }
 
   construirFormulario() {
     this.formulario = this.formBuilder.group({
@@ -87,6 +151,11 @@ export class RegistrarComponent implements OnInit {
       capacidad: ['', Validators.required],
       servicio: ['', Validators.required],
       carroceria: ['', Validators.required],
+      precio: [0, Validators.required]
+    });
+
+    this.formularioConsultaContrato = this.formBuilder.group({
+      token: ['', Validators.required]
     });
   }
 }

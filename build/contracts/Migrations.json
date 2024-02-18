@@ -1944,12 +1944,12 @@
     "1337": {
       "events": {},
       "links": {},
-      "address": "0x17556A811832E1d161E560c3a17D05D9122239d7",
-      "transactionHash": "0x1519b2d94bc9279c4de21d103c817153f380b98265678156a960f3f94029ec53"
+      "address": "0x215FbEA3A700Cb0e941fdff1B442d0A63Ba6fc76",
+      "transactionHash": "0xb0d03c482ca8300b8a571f20a0f91df5ef76f248aa1984414a6efd10a92133ea"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2024-02-15T02:16:10.411Z",
+  "updatedAt": "2024-02-18T06:13:37.140Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

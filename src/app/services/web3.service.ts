@@ -59,11 +59,12 @@ export class Web3Service {
     
         // Esperar a que ambas promesas se resuelvan
         await Promise.all([datosBasicosPromesa, detallesPromesa]);
-    
+
         // Ambos métodos se han ejecutado correctamente
         Swal.fire({
           icon: 'success',
-          title: 'Vehículo registrado'
+          title: 'Vehículo registrado',
+          text: 'El token del vehículo es: ' + contrato.options.address
         });
       } catch (error) {
         // Manejar errores si es necesario
@@ -154,9 +155,16 @@ export class Web3Service {
 
   obtenerContratoPorDireccion() {
     // const CONTRACT_ABI = configuration.abi;
-    const VEHICULO_CONTRACT = vehiculoContract.abi;
+    const ABI_VEHICULO_CONTRACT = vehiculoContract.abi;
 
-    return new this.web3.eth.Contract(VEHICULO_CONTRACT as AbiItem[], this.VEHICULO_CONTRACT_ADRESS);
+    return new this.web3.eth.Contract(ABI_VEHICULO_CONTRACT as AbiItem[], this.VEHICULO_CONTRACT_ADRESS);
+  }
+
+  obtenerContratoPorDireccionIngresada(direccionContrato: string) {
+    // const CONTRACT_ABI = configuration.abi;
+    const ABI_VEHICULO_CONTRACT = vehiculoContract.abi;
+
+    return new this.web3.eth.Contract(ABI_VEHICULO_CONTRACT as AbiItem[], direccionContrato);
   }
 
   // async requestAccounts() {
@@ -178,5 +186,31 @@ export class Web3Service {
       this.addressUser.next(accounts[0]);
       location.reload();
     });
+  }
+
+  async obtenerDatosBasicosVehiculo(direccionContrato: string): Promise<any> {
+
+    const contrato = this.obtenerContratoPorDireccionIngresada(direccionContrato);
+
+    try {
+      const datos = await contrato.methods.obtenerDatosBasicosVehiculo().call();
+      return datos;
+    } catch (error) {
+      return '';
+      // throw error;
+    }
+  }
+
+  async obtenerDetallesVehiculo(direccionContrato: string): Promise<any> {
+
+    const contrato = this.obtenerContratoPorDireccionIngresada(direccionContrato);
+
+    try {
+      const datos = await contrato.methods.obtenerDetallesVehiculo().call();
+      return datos;
+    } catch (error) {
+      return '';
+      // throw error;
+    }
   }
 }

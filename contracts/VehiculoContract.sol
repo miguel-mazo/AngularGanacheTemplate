@@ -3,6 +3,8 @@ pragma solidity ^0.8.0;
 
 contract VehiculoContract {
     address public propietario;
+    address[] public historialPropietarios;
+    uint256 public precioVenta;
 
     struct DatosBasicosVehiculo {
         string placa;
@@ -27,28 +29,36 @@ contract VehiculoContract {
         string combustible;
     }
 
-    struct OwnerInfo {
-        string name;
-        uint256 cedula;
-    }
-
-    struct OwnershipRecord {
-        address previousOwner;
-        uint256 timestamp;
-    }
-
     DatosBasicosVehiculo public datosBasicosVehiculo;
     DetallesVehiculo public detallesVehiculo;
-    OwnerInfo public ownerData;
-    OwnershipRecord[] public ownershipHistory;
 
     modifier onlyOwner() {
-        require(msg.sender == propietario, "Only the owner can call this function");
+        require(msg.sender == propietario, "No eres el propietario actual");
         _;
     }
 
     constructor() {
         propietario = msg.sender;
+        historialPropietarios.push(msg.sender);
+    }
+
+    function cambiarPropietario(address nuevoPropietario) internal {
+        propietario = nuevoPropietario;
+        historialPropietarios.push(nuevoPropietario);
+    }
+
+    function ponerEnVenta(uint256 _precioVenta) public onlyOwner {
+        precioVenta = _precioVenta;
+        cambiarPropietario(address(0));
+    }
+
+    function comprarVehiculo() public payable {
+        require(propietario == address(0));
+        require(msg.value >= precioVenta);
+
+        cambiarPropietario(msg.sender);
+
+        payable(propietario).transfer(msg.value);
     }
 
     function llenarDatosBasicosVehiculo(
@@ -95,26 +105,6 @@ contract VehiculoContract {
         });
     }
 
-    function setOwnerInfo(string memory _name, uint256 _cedula) public onlyOwner {
-        // Añade un nuevo registro al historial de propietarios
-        ownershipHistory.push(OwnershipRecord({
-            previousOwner: propietario,
-            timestamp: block.timestamp
-        }));
-
-        ownerData = OwnerInfo({
-            name: _name,
-            cedula: _cedula
-        });
-
-        // Actualiza al nuevo propietario
-        propietario = msg.sender;
-    }
-
-    function getOwnershipHistoryCount() public view returns (uint256) {
-        return ownershipHistory.length;
-    }
-
     function obtenerDatosBasicosVehiculo() public view returns (
         string memory, string memory, string memory, string memory, string memory,
         string memory, string memory, string memory, string memory, uint256, address
@@ -138,12 +128,16 @@ contract VehiculoContract {
         string memory, string memory, string memory, string memory, string memory, string memory
     ) {
         return (
+            detallesVehiculo.combustible,
             detallesVehiculo.cilindraje,
             detallesVehiculo.potencia,
             detallesVehiculo.capacidad,
             detallesVehiculo.servicio,
-            detallesVehiculo.carroceria,
-            detallesVehiculo.combustible
+            detallesVehiculo.carroceria
         );
+    }
+
+    function obtenerTamanoHistorial() public view returns (uint256) {
+        return historialPropietarios.length;
     }
 }

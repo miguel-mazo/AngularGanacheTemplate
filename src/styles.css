@@ -99,9 +99,9 @@ mat-form-field {
 }
 
 /* Ajusta el margen derecho del último campo de cada fila para que sea 0 */
-.form-row mat-form-field:last-child {
+/* .form-row mat-form-field:last-child {
     margin-right: 0;
-}
+} */
 
 .form-title {
     text-align: center;
@@ -111,5 +111,11 @@ mat-form-field {
 }
 
 .empty-space {
-  flex: 1; /* Establece la propiedad flex para que ocupe el espacio disponible */
+    flex: 1;
+    margin-right: 20px; /* Ajusta este valor para que coincida con el margen de mat-form-field */
+}
+
+/* Ajusta el margen derecho del último campo de cada fila para que sea 0 */
+.form-row mat-form-field:last-child .empty-space {
+    margin-right: 0; /* Ajusta este valor para que coincida con el margen de mat-form-field */
 }
