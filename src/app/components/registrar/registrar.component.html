@@ -1,0 +1,205 @@
+<form [formGroup]="formularioConsultaContrato" (ngSubmit)="enviarFormularioConsultaContrato()">
+  <div class="form-container">
+      <h2 class="form-title">Ingrese la dirección del contrato para registrar el vehículo:</h2>
+      <div class="form-row">
+          <mat-form-field appearance="outline">
+              <mat-label>Dirección del contrato</mat-label>
+              <input matInput placeholder="Dirección del vehículo" formControlName="token" required>
+              <mat-error *ngIf="formularioConsultaContrato.get('token')!.hasError('required')">
+                  {{ ERROR_CAMPO_OBLIGATORIO }}
+              </mat-error>
+          </mat-form-field>
+      </div>
+
+      <div class="form-row">
+
+          <div class="empty-space"></div>
+
+          <button class="btn btn-primary" type="submit">Consultar contrato</button>
+
+          <div class="empty-space"></div>
+
+      </div>
+  </div>
+</form>
+
+<form [formGroup]="formulario" (ngSubmit)="enviarFormularioDatosVehiculo()">  
+  <div class="form-container" *ngIf="contratoExistente">
+
+    <h2 class="form-title">Datos del vehículo a registrar</h2>
+
+    <div class="form-row">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Placa</mat-label>
+        <input matInput placeholder="Placa"  formControlName="placa" required>
+        <mat-error *ngIf="formulario.get('placa')!.hasError('required')">
+          {{ ERROR_CAMPO_OBLIGATORIO }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Número de motor</mat-label>
+        <input matInput placeholder="Número de motor"  formControlName="numeroMotor" required>
+        <mat-error *ngIf="formulario.get('numeroMotor')!.hasError('required')">
+          {{ ERROR_CAMPO_OBLIGATORIO }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Número de chasis</mat-label>
+        <input matInput placeholder="Número de chasis"  formControlName="numeroChasis" required>
+        <mat-error *ngIf="formulario.get('numeroChasis')!.hasError('required')">
+          {{ ERROR_CAMPO_OBLIGATORIO }}
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <div class="form-row">
+
+      <mat-form-field appearance="outline">
+        <mat-label>VIN</mat-label>
+        <input matInput placeholder="VIN"  formControlName="VIN" required>
+        <mat-error *ngIf="formulario.get('VIN')!.hasError('required')">
+          {{ ERROR_CAMPO_OBLIGATORIO }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Clase</mat-label>
+        <mat-select placeholder="Seleccione una clase" formControlName="clase" required>
+          <mat-option *ngFor="let clase of clases" [value]="clase">{{clase}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="formulario.get('clase')!.hasError('required')">
+          {{ ERROR_CAMPO_OBLIGATORIO }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Marca</mat-label>
+        <input matInput placeholder="Marca"  formControlName="marca" required>
+        <mat-error *ngIf="formulario.get('marca')!.hasError('required')">
+          {{ ERROR_CAMPO_OBLIGATORIO }}
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <div class="form-row">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Línea</mat-label>
+        <input matInput placeholder="Línea"  formControlName="linea" required>
+        <mat-error *ngIf="formulario.get('linea')!.hasError('required')">
+          {{ ERROR_CAMPO_OBLIGATORIO }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Modelo</mat-label>
+        <input matInput placeholder="Modelo"  formControlName="modelo" required>
+        <mat-error *ngIf="formulario.get('modelo')!.hasError('required')">
+          {{ ERROR_CAMPO_OBLIGATORIO }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Color</mat-label>
+        <input matInput placeholder="Color"  formControlName="color" required>
+        <mat-error *ngIf="formulario.get('color')!.hasError('required')">
+          {{ ERROR_CAMPO_OBLIGATORIO }}
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <div class="form-row">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Combustible</mat-label>
+        <mat-select placeholder="Seleccione un tipo de combustible" formControlName="combustible" required>
+          <mat-option *ngFor="let combustible of combustibles" [value]="combustible">{{combustible}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="formulario.get('combustible')!.hasError('required')">
+          {{ ERROR_CAMPO_OBLIGATORIO }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Cilindraje</mat-label>
+        <input matInput placeholder="Cilindraje"  formControlName="cilindraje" required>
+        <mat-error *ngIf="formulario.get('cilindraje')!.hasError('required')">
+          {{ ERROR_CAMPO_OBLIGATORIO }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Potencia</mat-label>
+        <input matInput placeholder="Potencia"  formControlName="potencia" required>
+        <mat-error *ngIf="formulario.get('potencia')!.hasError('required')">
+          {{ ERROR_CAMPO_OBLIGATORIO }}
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <div class="form-row">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Capacidad</mat-label>
+        <input matInput placeholder="Capacidad"  formControlName="capacidad" required>
+        <mat-error *ngIf="formulario.get('capacidad')!.hasError('required')">
+          {{ ERROR_CAMPO_OBLIGATORIO }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Servicio</mat-label>
+        <mat-select placeholder="Seleccione un servicio" formControlName="servicio" required>
+          <mat-option *ngFor="let servicio of servicios" [value]="servicio">{{servicio}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="formulario.get('servicio')!.hasError('required')">
+          {{ ERROR_CAMPO_OBLIGATORIO }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Carrocería</mat-label>
+        <input matInput placeholder="Carrocería"  formControlName="carroceria" required>
+        <mat-error *ngIf="formulario.get('carroceria')!.hasError('required')">
+          {{ ERROR_CAMPO_OBLIGATORIO }}
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <div class="form-row">
+      
+      <div class="empty-space"></div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Precio</mat-label>
+        <input matInput type="number" placeholder="Precio" formControlName="precio" required>
+        <span matSuffix>ETH</span>
+        <mat-error *ngIf="formulario.get('precio')!.hasError('required')">
+          {{ ERROR_CAMPO_OBLIGATORIO }}
+        </mat-error>
+      </mat-form-field>
+
+      <div class="empty-space"></div>
+
+    </div>
+
+    <div class="form-row">
+      
+      <div class="empty-space"></div>
+
+      <button class="btn btn-primary" type="submit">Registrar vehículo</button>
+
+      <div class="empty-space"></div>
+
+    </div>
+    
+  </div>
+</form>

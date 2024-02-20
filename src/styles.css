@@ -75,3 +75,47 @@ mat-sidenav .entry {
     gap: 1rem;
     padding: 0.75rem;
 }
+
+.form-container {
+    width: 100%;
+    max-width: 960px;
+    /* Ajusta este valor según el ancho deseado del formulario */
+    margin: auto;
+    padding: 20px;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1px;
+    /* Este será el espacio vertical entre las filas */
+}
+
+mat-form-field {
+    flex: 1;
+    /* Los campos de formulario crecen para llenar el espacio disponible */
+    margin-right: 20px;
+    /* Este será el espacio horizontal entre los campos */
+}
+
+/* Ajusta el margen derecho del último campo de cada fila para que sea 0 */
+/* .form-row mat-form-field:last-child {
+    margin-right: 0;
+} */
+
+.form-title {
+    text-align: center;
+    /* Centra el texto del título */
+    margin-bottom: 30px;
+    /* Espacio entre el título y la primera fila de campos */
+}
+
+.empty-space {
+    flex: 1;
+    margin-right: 20px; /* Ajusta este valor para que coincida con el margen de mat-form-field */
+}
+
+/* Ajusta el margen derecho del último campo de cada fila para que sea 0 */
+.form-row mat-form-field:last-child .empty-space {
+    margin-right: 0; /* Ajusta este valor para que coincida con el margen de mat-form-field */
+}

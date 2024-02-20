@@ -17,6 +17,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
+import { VenderComponent } from './components/vender/vender.component';
+import { RegistrarComponent } from './components/registrar/registrar.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { NgxUiLoaderModule, NgxUiLoaderRouterModule } from 'ngx-ui-loader';
+import { ComprarComponent } from './components/comprar/comprar.component';
 
 
 @NgModule({
@@ -26,7 +34,10 @@ import { MatCardModule } from '@angular/material/card';
     HeaderComponent,
     TicketComponent,
     TicketsComponent,
-    NavBarComponent
+    NavBarComponent,
+    VenderComponent,
+    RegistrarComponent,
+    ComprarComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,7 +49,14 @@ import { MatCardModule } from '@angular/material/card';
     MatSidenavModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatCardModule
+    MatCardModule,
+    MatInputModule,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    NgxUiLoaderModule,
+    NgxUiLoaderRouterModule
   ],
   providers: [Web3Service],
   bootstrap: [AppComponent]

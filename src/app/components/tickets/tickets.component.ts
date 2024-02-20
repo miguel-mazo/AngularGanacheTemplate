@@ -24,7 +24,7 @@ export class TicketsComponent implements OnInit {
   }
 
   async refreshTickets() {
-    const contract = this.web3Service.getContract();
+    const contract = this.web3Service.obtenerContratoPorDireccion();
     // Implement logic to retrieve and update 'tickets' array
 
     const totalTickets = await contract.methods.TOTAL_TICKETS().call();

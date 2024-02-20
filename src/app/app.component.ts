@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Web3Service } from './services/web3.service';
+import { CuentasAdministradoras } from 'src/assets/constantes/cuentas-administradoras.constants';
 // import Web3 from 'web3';
 
 @Component({
@@ -9,7 +10,8 @@ import { Web3Service } from './services/web3.service';
 })
 export class AppComponent implements OnInit {
   title = 'test-angular-ganache';
-  account: any;
+  account!: string;
+  esAdministrador!: boolean;
   // private web3: Web3;
 
   constructor(private cdr: ChangeDetectorRef, private web3Service: Web3Service) {
@@ -34,6 +36,7 @@ export class AppComponent implements OnInit {
 
     this.web3Service.addressUser.subscribe((res: string) => {
       this.account = res;
+      this.esAdministrador = CuentasAdministradoras.includes(this.account.toLocaleLowerCase())? true : false;
       this.cdr.detectChanges();
     });
   }
@@ -43,5 +46,10 @@ export class AppComponent implements OnInit {
     // Do something with the accounts if needed
     // this.account = accounts[0];
     this.account = await this.web3Service.getAccount();
+    // if('0x6726F78ced118b7af8B53994e941198585205b9b'.toLowerCase() === this.account){
+    //   this.esAdministrador = true;
+    //   console.log("Entra if init", this.account)
+    // }
+    // this.esAdministrador = CuentasAdministradoras.includes(this.account)? true : false;
   }
 }
