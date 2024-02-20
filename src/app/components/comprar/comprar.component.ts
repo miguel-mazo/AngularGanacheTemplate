@@ -16,6 +16,7 @@ export class ComprarComponent implements OnInit {
 
   datosBasicosVehiculo: any = [];
   detallesVehiculo: any = [];
+  precioVehiculo!: number;
   fechaMatricula: string = '';
   ERROR_CAMPO_OBLIGATORIO = CAMPO_OBLIGATORIO;
   vehiculoExistente = false;
@@ -50,6 +51,7 @@ export class ComprarComponent implements OnInit {
   async obtenerDatosVehiculo() {
     this.obtenerDatosBasicosVehiculo();
     this.obtenerDetallesVehiculo();
+    this.obtenerPrecioVehiculo();
   }
 
   async obtenerDatosBasicosVehiculo() {
@@ -79,6 +81,16 @@ export class ComprarComponent implements OnInit {
     }
   }
 
+  async obtenerPrecioVehiculo() {
+    try {
+      this.precioVehiculo = await this.web3Service.obtenerPrecioVehiculo(this.token);
+      console.log("Desde el comprar el precio es:", this.precioVehiculo)
+    } catch (error) {
+      this.precioVehiculo = 0;
+      // console.error('Error al obtener detalles del vehículo:', error);
+    }
+  }
+
   convertirSegundosAFecha(segundosString: string): string {
     const segundos = parseInt(segundosString, 10);
 
@@ -88,5 +100,9 @@ export class ComprarComponent implements OnInit {
     const anio = fecha.getFullYear();
 
     return `${dia}/${mes}/${anio}`;
+  }
+
+  async comprarVehiculo(){
+    this.web3Service.comprarVehiculo(this.token);
   }
 }

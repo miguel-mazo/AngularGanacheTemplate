@@ -2688,12 +2688,12 @@
     "1337": {
       "events": {},
       "links": {},
-      "address": "0x7abD41C5eafc7D60Deb057aE09C49A2e56B6F8a6",
-      "transactionHash": "0x681bd5b3d76ce7b74c3ade336bce1c9f7f7e8c4a21ca5c2b3471fa31503fdc11"
+      "address": "0x3402387e35D4ACDBd1ab58a3FBDD70F649AB3e2B",
+      "transactionHash": "0x59402815c66cb4632336cc64c7ffe779256ca73317eeeb7a1d0e3983303c6c43"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2024-02-18T06:13:36.805Z",
+  "updatedAt": "2024-02-20T00:39:54.644Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

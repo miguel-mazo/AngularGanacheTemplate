@@ -181,7 +181,7 @@
       <mat-form-field appearance="outline">
         <mat-label>Precio</mat-label>
         <input matInput type="number" placeholder="Precio" formControlName="precio" required>
-        <span matSuffix>ETH</span> <!-- Aquí se muestra la unidad ETH -->
+        <span matSuffix>ETH</span>
         <mat-error *ngIf="formulario.get('precio')!.hasError('required')">
           {{ ERROR_CAMPO_OBLIGATORIO }}
         </mat-error>

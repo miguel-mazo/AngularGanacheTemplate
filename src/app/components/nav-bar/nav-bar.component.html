@@ -32,19 +32,11 @@
                     <span *ngIf="!isCollapsed">Comprar vehículo</span>
                 </span>
             </a>
-
-            <!-- <a mat-list-item>
-                <span class="entry">
-                    <mat-icon>credit_card</mat-icon>
-                    <span *ngIf="!isCollapsed">Comprar vehículo</span>
-                </span>
-            </a> -->
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
         <app-registrar *ngIf="!isVenderVehiculo && esAdministrador">Registrar veh</app-registrar>
         <!-- <app-registrar>Registrar veh</app-registrar> -->
-        <h2 *ngIf="isVenderVehiculo && !esAdministrador">Vender vehículo Content</h2>
         <app-comprar *ngIf="!isVenderVehiculo && !esAdministrador"></app-comprar>
         <app-vender *ngIf="isVenderVehiculo && !esAdministrador"></app-vender>
         <!-- <app-header *ngIf="!isVenderVehiculo && !esAdministrador"></app-header> -->

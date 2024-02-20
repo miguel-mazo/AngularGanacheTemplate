@@ -24,9 +24,9 @@ export class Web3Service {
     this.web3 = new Web3(Web3.givenProvider || 'http://127.0.0.1:8545');
   }
 
-  async llenarDatosVehiculo(vehiculo: Vehiculo){
+  async llenarDatosVehiculo(direccionContrato: string, vehiculo: Vehiculo, precio: number){
     
-    const contrato = this.obtenerContratoPorDireccion();
+    const contrato = this.obtenerContratoPorDireccionIngresada(direccionContrato);
     console.log("Cuenta:", await this.getAccount())
     console.log("CONTRACT_ADDRESS:", this.VEHICULO_CONTRACT_ADRESS)
 
@@ -56,9 +56,10 @@ export class Web3Service {
         this.ngxLoader.start();
         const datosBasicosPromesa = this.llenarDatosBasicosVehiculo(contrato, vehiculo);
         const detallesPromesa = this.llenarDetallesVehiculo(contrato, vehiculo);
-    
+        const precioVenta = this.asignarPrecioVenta(contrato, precio);
+        
         // Esperar a que ambas promesas se resuelvan
-        await Promise.all([datosBasicosPromesa, detallesPromesa]);
+        await Promise.all([datosBasicosPromesa, detallesPromesa, precioVenta]);
 
         // Ambos métodos se han ejecutado correctamente
         Swal.fire({
@@ -102,6 +103,26 @@ export class Web3Service {
       // return deployedContract.options.address;
   }
 
+  async asignarPrecioVenta(contrato: any, precioVenta: number){
+
+    precioVenta = precioVenta * 1e18;
+
+    return new Promise(async (resolve, reject) => {
+      try {
+        await contrato.methods.ponerEnVenta(
+          precioVenta.toString()
+        ).send({
+          from: await this.getAccount()
+        }).on('confirmation', async (confirmationNumber: any, receipt: any) => {
+          console.log("Precio de venta: ", await contrato.methods.precioVenta().call());
+          resolve("Precio de venta del vehículo registrado");  // Resuelve la promesa cuando el método se ha ejecutado correctamente
+        });
+      } catch (error) {
+        reject(error);  // Rechaza la promesa en caso de error
+      }
+    });
+  }
+  
   async llenarDatosBasicosVehiculo(contrato: any, vehiculo: Vehiculo) {
     return new Promise(async (resolve, reject) => {
       try {
@@ -208,6 +229,69 @@ export class Web3Service {
     try {
       const datos = await contrato.methods.obtenerDetallesVehiculo().call();
       return datos;
+    } catch (error) {
+      return '';
+      // throw error;
+    }
+  }
+
+  async obtenerPrecioVehiculo(direccionContrato: string): Promise<any> {
+
+    const contrato = this.obtenerContratoPorDireccionIngresada(direccionContrato);
+
+    try {
+      const precio = await contrato.methods.precioVenta().call()
+      return precio/1e18;
+    } catch (error) {
+      return '';
+      // throw error;
+    }
+  }
+
+  async comprarVehiculo(direccionContrato: string): Promise<any> {
+
+    const contrato = await this.obtenerContratoPorDireccionIngresada(direccionContrato);
+    const precioVenta = await this.obtenerPrecioVehiculo(direccionContrato);
+    try {
+      await contrato.methods.comprarVehiculo().send({
+        from: await this.getAccount(),
+        value: this.web3.utils.toWei(precioVenta.toString(), 'ether'),
+      });
+    } catch (error) {
+      // return '';
+      throw error;
+    }
+  }
+
+  async ponerVehiculoEnVenta(direccionContrato: string, precioVenta: number){
+
+    const contrato = this.obtenerContratoPorDireccionIngresada(direccionContrato);
+
+    precioVenta = precioVenta * 1e18;
+    console.log("PRECIO VENTA: ",precioVenta)
+    return new Promise(async (resolve, reject) => {
+      try {
+        await contrato.methods.ponerEnVenta(
+          precioVenta.toString()
+        ).send({
+          from: await this.getAccount()
+        }).on('confirmation', async (confirmationNumber: any, receipt: any) => {
+          console.log("Precio de venta: ", await contrato.methods.precioVenta().call());
+          resolve("Precio de venta del vehículo asignado");  // Resuelve la promesa cuando el método se ha ejecutado correctamente
+        });
+      } catch (error) {
+        reject(error);  // Rechaza la promesa en caso de error
+      }
+    });
+  }
+
+  async obtenerPropietarioVehiculo(direccionContrato: string): Promise<any> {
+
+    const contrato = this.obtenerContratoPorDireccionIngresada(direccionContrato);
+
+    try {
+      const precio = await contrato.methods.propietario().call()
+      return precio
     } catch (error) {
       return '';
       // throw error;

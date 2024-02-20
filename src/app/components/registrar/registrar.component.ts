@@ -131,7 +131,7 @@ export class RegistrarComponent implements OnInit {
   }
 
   async registrarVehiculo(){
-    this.web3Service.llenarDatosVehiculo(this.vehiculo);
+    this.web3Service.llenarDatosVehiculo(this.tokenContrato, this.vehiculo, this.formulario.get('precio')?.value);
   }
 
   construirFormulario() {

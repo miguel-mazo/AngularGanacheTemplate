@@ -3,8 +3,8 @@
         <h2 class="form-title">Ingrese el token del vehículo a comprar:</h2>
         <div class="form-row">
             <mat-form-field appearance="outline">
-                <mat-label>Token del vehículo</mat-label>
-                <input matInput placeholder="Token del vehículo" formControlName="token" required>
+                <mat-label>Token del vehículo a comprar</mat-label>
+                <input matInput placeholder="Token del vehículo a comprar" formControlName="token" required>
                 <mat-error *ngIf="formularioComprar.get('token')!.hasError('required')">
                     {{ ERROR_CAMPO_OBLIGATORIO }}
                 </mat-error>
@@ -147,6 +147,31 @@
 
         <div class="empty-space"></div>
 
+    </div>
+
+    <div class="form-row">
+
+        <div class="empty-space"></div>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Precio</mat-label>
+            <input matInput placeholder="Precio" [value]="precioVehiculo"
+                [readonly]="true">
+            <span matSuffix>ETH</span>
+        </mat-form-field>
+
+        <div class="empty-space"></div>
+
+    </div>
+
+    <div class="form-row">
+    
+        <div class="empty-space"></div>
+    
+        <button class="btn btn-primary" (click)="comprarVehiculo()">Comprar vehículo</button>
+    
+        <div class="empty-space"></div>
+    
     </div>
 
 </div>

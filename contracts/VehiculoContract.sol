@@ -5,6 +5,7 @@ contract VehiculoContract {
     address public propietario;
     address[] public historialPropietarios;
     uint256 public precioVenta;
+    bool public enVenta;
 
     struct DatosBasicosVehiculo {
         string placa;
@@ -33,7 +34,7 @@ contract VehiculoContract {
     DetallesVehiculo public detallesVehiculo;
 
     modifier onlyOwner() {
-        require(msg.sender == propietario, "No eres el propietario actual");
+        require(msg.sender == propietario);
         _;
     }
 
@@ -49,16 +50,20 @@ contract VehiculoContract {
 
     function ponerEnVenta(uint256 _precioVenta) public onlyOwner {
         precioVenta = _precioVenta;
-        cambiarPropietario(address(0));
+        enVenta = true;
     }
 
     function comprarVehiculo() public payable {
-        require(propietario == address(0));
+        require(enVenta);
         require(msg.value >= precioVenta);
+
+        address propietarioActual = propietario;
 
         cambiarPropietario(msg.sender);
 
-        payable(propietario).transfer(msg.value);
+        payable(propietarioActual).transfer(precioVenta);
+
+        enVenta = false;
     }
 
     function llenarDatosBasicosVehiculo(
