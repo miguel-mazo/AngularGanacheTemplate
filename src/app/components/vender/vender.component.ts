@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
@@ -19,11 +20,11 @@ export class VenderComponent implements OnInit {
   datosBasicosVehiculo: any = [];
   detallesVehiculo: any = [];
   precioVehiculo!: number;
-  fechaMatricula: string = '';
+  fechaMatricula!: string;
   direccionPropietarioActual?: string;
   mostrarFormularioVenta: boolean = false;
 
-  constructor(private web3Service: Web3Service, private formBuilder: FormBuilder, private ngxLoader: NgxUiLoaderService) { }
+  constructor(private web3Service: Web3Service, private formBuilder: FormBuilder, private ngxLoader: NgxUiLoaderService, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     this.construirFormulario();    
@@ -66,7 +67,7 @@ export class VenderComponent implements OnInit {
   async obtenerDatosBasicosVehiculo() {
     try {
       this.datosBasicosVehiculo = await this.web3Service.obtenerDatosBasicosVehiculo(this.token);
-      this.fechaMatricula = this.convertirSegundosAFecha(this.datosBasicosVehiculo[9]);
+      this.fechaMatricula = this.datePipe.transform(this.datosBasicosVehiculo[9] * 1000, 'dd/MM/yyyy') || '';
       console.log("Desde el vender datosVehiculo es:", this.datosBasicosVehiculo)
     } catch (error) {
       this.datosBasicosVehiculo = [];
@@ -87,17 +88,6 @@ export class VenderComponent implements OnInit {
       this.detallesVehiculo = [];
       // console.error('Error al obtener detalles del vehículo:', error);
     }
-  }
-
-  convertirSegundosAFecha(segundosString: string): string {
-    const segundos = parseInt(segundosString, 10);
-
-    const fecha = new Date(segundos * 1000);
-    const dia = fecha.getDate().toString().padStart(2, '0');
-    const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
-    const anio = fecha.getFullYear();
-
-    return `${dia}/${mes}/${anio}`;
   }
 
   async enviarFormularioAsignarPrecio(){

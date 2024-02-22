@@ -29,13 +29,6 @@
         <h2 class="form-title">Datos del vehículo</h2>
 
         <div class="form-row">
-            <mat-form-field appearance="outline">
-                <mat-label>Dirección propietario actual</mat-label>
-                <input matInput placeholder="Dirección propietario actual" [value]="direccionPropietarioActual" [readonly]="true">
-            </mat-form-field>
-        </div>
-
-        <div class="form-row">
 
             <mat-form-field appearance="outline">
                 <mat-label>Placa</mat-label>
@@ -141,19 +134,17 @@
 
         <div class="form-row">
 
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" style="flex: 0.97;">
                 <mat-label>Fecha de matrícula</mat-label>
                 <input matInput placeholder="Fecha de matrícula" [value]="fechaMatricula"
                     [readonly]="true">
             </mat-form-field>
 
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" style="flex: 2;">
                 <mat-label>Dirección de cuenta de organismo de tránsito</mat-label>
                 <input matInput placeholder="Dirección de cuenta de organismo de tránsito" [value]="datosBasicosVehiculo[10]"
                     [readonly]="true">
             </mat-form-field>
-
-            <div class="empty-space"></div>
 
         </div>
 

@@ -26,6 +26,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { NgxUiLoaderModule, NgxUiLoaderRouterModule } from 'ngx-ui-loader';
 import { ComprarComponent } from './components/comprar/comprar.component';
 import { MatTableModule } from '@angular/material/table';
+import { DatePipe } from '@angular/common';
 
 
 @NgModule({
@@ -60,7 +61,7 @@ import { MatTableModule } from '@angular/material/table';
     NgxUiLoaderRouterModule,
     MatTableModule
   ],
-  providers: [Web3Service],
+  providers: [Web3Service, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

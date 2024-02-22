@@ -6,6 +6,7 @@ import { Vehiculo } from 'src/app/models/vehiculo.model';
 import { Web3Service } from 'src/app/services/web3.service';
 import { CAMPO_OBLIGATORIO } from 'src/assets/constantes/errores.constants';
 import Swal from 'sweetalert2';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-comprar',
@@ -19,14 +20,14 @@ export class ComprarComponent implements OnInit {
   datosBasicosVehiculo: any = [];
   detallesVehiculo: any = [];
   precioVehiculo!: number;
-  fechaMatricula: string = '';
+  fechaMatricula!: string;
   ERROR_CAMPO_OBLIGATORIO = CAMPO_OBLIGATORIO;
   vehiculoExistente = false;
   token: string = '';
   direccionPropietarioActual?: string;
   historialVehiculo !: HistorialVehiculo[];
 
-  constructor(private web3Service: Web3Service, private formBuilder: FormBuilder, private ngxLoader: NgxUiLoaderService) { }
+  constructor(private web3Service: Web3Service, private formBuilder: FormBuilder, private ngxLoader: NgxUiLoaderService, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     this.construirFormulario();
@@ -94,7 +95,7 @@ export class ComprarComponent implements OnInit {
   async obtenerDatosBasicosVehiculo() {
     try {
       this.datosBasicosVehiculo = await this.web3Service.obtenerDatosBasicosVehiculo(this.token);
-      this.fechaMatricula = this.convertirSegundosAFecha(this.datosBasicosVehiculo[9]);
+      this.fechaMatricula = this.datePipe.transform(this.datosBasicosVehiculo[9] * 1000, 'dd/MM/yyyy') || '';
       console.log("Desde el comprar datosVehiculo es:", this.datosBasicosVehiculo)
       this.vehiculoExistente = true;
     } catch (error) {
@@ -126,17 +127,6 @@ export class ComprarComponent implements OnInit {
       this.precioVehiculo = 0;
       // console.error('Error al obtener detalles del vehículo:', error);
     }
-  }
-
-  convertirSegundosAFecha(segundosString: string): string {
-    const segundos = parseInt(segundosString, 10);
-
-    const fecha = new Date(segundos * 1000);
-    const dia = fecha.getDate().toString().padStart(2, '0');
-    const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
-    const anio = fecha.getFullYear();
-
-    return `${dia}/${mes}/${anio}`;
   }
 
   async comprarVehiculo(){
