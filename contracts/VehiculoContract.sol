@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 contract VehiculoContract {
     address public propietario;
     address[] public historialPropietarios;
+    uint256[] public fechaEventos;
     uint256 public precioVenta;
     bool public enVenta;
 
@@ -41,11 +42,13 @@ contract VehiculoContract {
     constructor() {
         propietario = msg.sender;
         historialPropietarios.push(msg.sender);
+        fechaEventos.push(block.timestamp);
     }
 
     function cambiarPropietario(address nuevoPropietario) internal {
         propietario = nuevoPropietario;
         historialPropietarios.push(nuevoPropietario);
+        fechaEventos.push(block.timestamp);
     }
 
     function ponerEnVenta(uint256 _precioVenta) public onlyOwner {

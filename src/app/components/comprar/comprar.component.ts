@@ -1,5 +1,7 @@
 import { Component, OnInit, PipeTransform } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { HistorialVehiculo } from 'src/app/models/historial-vehiculo.model';
 import { Vehiculo } from 'src/app/models/vehiculo.model';
 import { Web3Service } from 'src/app/services/web3.service';
 import { CAMPO_OBLIGATORIO } from 'src/assets/constantes/errores.constants';
@@ -20,9 +22,11 @@ export class ComprarComponent implements OnInit {
   fechaMatricula: string = '';
   ERROR_CAMPO_OBLIGATORIO = CAMPO_OBLIGATORIO;
   vehiculoExistente = false;
-  token: string = ''
+  token: string = '';
+  direccionPropietarioActual?: string;
+  historialVehiculo !: HistorialVehiculo[];
 
-  constructor(private web3Service: Web3Service, private formBuilder: FormBuilder) { }
+  constructor(private web3Service: Web3Service, private formBuilder: FormBuilder, private ngxLoader: NgxUiLoaderService) { }
 
   ngOnInit(): void {
     this.construirFormulario();
@@ -49,9 +53,42 @@ export class ComprarComponent implements OnInit {
   }
 
   async obtenerDatosVehiculo() {
-    this.obtenerDatosBasicosVehiculo();
-    this.obtenerDetallesVehiculo();
-    this.obtenerPrecioVehiculo();
+
+    this.direccionPropietarioActual = await this.obtenerDireccionPropietarioActual();
+    const propietarios = await this.web3Service.obtenerHistorialPropietariosVehiculo(this.token);
+    const fechaEventos = await this.web3Service.obtenerHistorialFechasEventosVehiculo(this.token);
+    await Promise.all([this.direccionPropietarioActual, propietarios, fechaEventos]);
+
+    console.log("historial: ", propietarios)
+    console.log("fechas: ", fechaEventos)
+    
+    this.historialVehiculo = propietarios.slice(1).map((propietario: any, index: string | number) => ({
+      propietario,
+      fecha: new Date(fechaEventos[index]*1000)
+    }));
+
+    console.log("objeto Historial: ",  this.historialVehiculo)
+
+    if(await this.validarPropietario()){
+
+      if(!(await this.validarEstadoVentaVehiculo())){
+
+        this.vehiculoExistente = false;
+        this.datosBasicosVehiculo = [];
+        this.detallesVehiculo = [];
+
+        Swal.fire({
+          icon: 'error',
+          title: '¡El Vehículo no está en venta!',
+          text: 'El vehículo asociado al token ' + this.token + ' no está en venta'
+        });
+      } else {
+        this.vehiculoExistente = true;
+        this.obtenerDatosBasicosVehiculo();
+        this.obtenerDetallesVehiculo();
+        this.obtenerPrecioVehiculo();
+      }
+    }
   }
 
   async obtenerDatosBasicosVehiculo() {
@@ -103,6 +140,52 @@ export class ComprarComponent implements OnInit {
   }
 
   async comprarVehiculo(){
-    this.web3Service.comprarVehiculo(this.token);
+    try {
+      this.ngxLoader.start();
+      const respuestaComprar = this.web3Service.comprarVehiculo(this.token);
+      await Promise.all([respuestaComprar]);
+      
+      Swal.fire({
+        icon: 'success',
+        title: '¡Vehículo comprado!',
+        text: 'El vehículo asociado al token ' + this.token + ' ya es de su propiedad'
+      })
+
+      this.vehiculoExistente = false;
+      this.datosBasicosVehiculo = [];
+      this.detallesVehiculo = [];
+
+    } finally {
+      this.ngxLoader.stop();
+    }
+  }
+
+  async obtenerDireccionPropietarioActual(){
+    return this.web3Service.obtenerPropietarioVehiculo(this.token);
+  }
+
+  async validarPropietario(){
+    const cuentaActual = await this.web3Service.getAccount();
+
+    if(cuentaActual === this.direccionPropietarioActual){
+
+      // this.vehiculoExistente = false;
+
+      Swal.fire({
+        icon: 'error',
+        title: '¡Error al comprar el vehículo!',
+        text: 'El vehículo asociado al token ' + this.token + ' ya es de su propiedad'
+      });
+
+      return false;
+    } else{
+      // this.vehiculoExistente = true;
+
+      return true;
+    }
+  }
+
+  async validarEstadoVentaVehiculo(){
+    return await this.web3Service.obtenerEstadoVentaVehiculo(this.token);
   }
 }

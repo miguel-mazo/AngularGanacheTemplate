@@ -24,7 +24,7 @@
 </form>
 
 <form [formGroup]="formularioPrecio" (ngSubmit)="enviarFormularioAsignarPrecio()">
-    <div class="form-container" >
+    <div class="form-container" *ngIf="mostrarFormularioVenta">
 
         <h2 class="form-title">Datos del vehículo</h2>
 

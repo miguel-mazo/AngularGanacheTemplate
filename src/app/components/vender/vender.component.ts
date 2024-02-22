@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Web3Service } from 'src/app/services/web3.service';
 import { CAMPO_OBLIGATORIO } from 'src/assets/constantes/errores.constants';
 import Swal from 'sweetalert2';
@@ -20,8 +21,9 @@ export class VenderComponent implements OnInit {
   precioVehiculo!: number;
   fechaMatricula: string = '';
   direccionPropietarioActual?: string;
+  mostrarFormularioVenta: boolean = false;
 
-  constructor(private web3Service: Web3Service, private formBuilder: FormBuilder) { }
+  constructor(private web3Service: Web3Service, private formBuilder: FormBuilder, private ngxLoader: NgxUiLoaderService) { }
 
   ngOnInit(): void {
     this.construirFormulario();    
@@ -33,12 +35,13 @@ export class VenderComponent implements OnInit {
     });
 
     this.formularioPrecio = this.formBuilder.group({
-      precio: [0, Validators.required]
+      precio: [, Validators.required]
     });
   }
 
   async enviarFormularioConsultaContrato() {
     if (this.formularioVender.valid) {
+      this.mostrarFormularioVenta = false;
       this.datosBasicosVehiculo = [];
       this.detallesVehiculo = [];
       // Lógica para manejar la presentación del formulario
@@ -53,8 +56,11 @@ export class VenderComponent implements OnInit {
   async obtenerDatosVehiculo() {
     this.obtenerDatosBasicosVehiculo();
     this.obtenerDetallesVehiculo();
-    this.obtenerDireccionPropietarioActual();
-    
+
+    this.direccionPropietarioActual = await this.obtenerDireccionPropietarioActual();
+    await Promise.all([this.direccionPropietarioActual]);
+
+    this.validarPropietario();    
   }
 
   async obtenerDatosBasicosVehiculo() {
@@ -96,17 +102,49 @@ export class VenderComponent implements OnInit {
 
   async enviarFormularioAsignarPrecio(){
     if (this.formularioPrecio.valid) {
-      console.log('Formulario válido. Datos:', this.formularioVender.value);
-      // Agrega aquí la lógica para enviar o procesar los datos
-      const token =  this.formularioVender.get('token');
-      this.token = token?.value
-      this.precioVehiculo = this.formularioPrecio.get('precio')?.value
-      this.web3Service.ponerVehiculoEnVenta(this.token, this.precioVehiculo);
+      try{
+        this.ngxLoader.start();
+        console.log('Formulario válido. Datos:', this.formularioVender.value);
+        // Agrega aquí la lógica para enviar o procesar los datos
+        const token =  this.formularioVender.get('token');
+        this.token = token?.value;
+        this.precioVehiculo = this.formularioPrecio.get('precio')?.value;
+
+        const respuesta = this.web3Service.ponerVehiculoEnVenta(this.token, this.precioVehiculo);
+        await Promise.all([respuesta]);
+
+        Swal.fire({
+          icon: 'success',
+          title: '¡Vehículo en venta!',
+          text: 'El vehículo asociado al token ' + this.token + ' se ha puesto a la venta'
+        });
+
+        this.token = '';
+        this.datosBasicosVehiculo = [];
+        this.detallesVehiculo = [];
+        this.mostrarFormularioVenta = false;
+        
+      } finally {
+        this.ngxLoader.stop();
+      }
     }
   }
 
   async obtenerDireccionPropietarioActual(){
-    this.direccionPropietarioActual = await this.web3Service.obtenerPropietarioVehiculo(this.token);
+    return this.web3Service.obtenerPropietarioVehiculo(this.token);
   }
 
+  async validarPropietario(){
+    const cuentaActual = await this.web3Service.getAccount();
+
+    if(cuentaActual !== this.direccionPropietarioActual){
+      Swal.fire({
+        icon: 'error',
+        title: '¡Error al vender el vehículo!',
+        text: 'El vehículo asociado al token ' + this.token + ' no es de su propiedad'
+      });
+    } else{
+      this.mostrarFormularioVenta = true;
+    }
+  }
 }

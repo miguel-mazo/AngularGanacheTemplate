@@ -25,6 +25,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { NgxUiLoaderModule, NgxUiLoaderRouterModule } from 'ngx-ui-loader';
 import { ComprarComponent } from './components/comprar/comprar.component';
+import { MatTableModule } from '@angular/material/table';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import { ComprarComponent } from './components/comprar/comprar.component';
     ReactiveFormsModule,
     MatSelectModule,
     NgxUiLoaderModule,
-    NgxUiLoaderRouterModule
+    NgxUiLoaderRouterModule,
+    MatTableModule
   ],
   providers: [Web3Service],
   bootstrap: [AppComponent]

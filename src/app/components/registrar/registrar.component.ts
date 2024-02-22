@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Vehiculo } from 'src/app/models/vehiculo.model';
 import { Web3Service } from 'src/app/services/web3.service';
 import { CLASES_CONSTANTS } from 'src/assets/constantes/clases.constants';
@@ -46,7 +47,7 @@ export class RegistrarComponent implements OnInit {
   servicios = SERVICIOS_CONSTANTS;
   ERROR_CAMPO_OBLIGATORIO = CAMPO_OBLIGATORIO;
 
-  constructor(private web3Service: Web3Service, private formBuilder: FormBuilder) { }
+  constructor(private web3Service: Web3Service, private formBuilder: FormBuilder, private ngxLoader: NgxUiLoaderService) { }
 
   ngOnInit(): void {
     this.construirFormulario();
@@ -54,13 +55,33 @@ export class RegistrarComponent implements OnInit {
 
   async enviarFormularioDatosVehiculo() {
     if (this.formulario.valid) {
-      // Lógica para manejar la presentación del formulario
-      console.log('Formulario válido. Datos:', this.formulario.value);
-      // Agrega aquí la lógica para enviar o procesar los datos
-      this.vehiculo = { ...this.vehiculo, ...this.formulario.value };
-      console.log(this.vehiculo)
+      try {
+        this.ngxLoader.start();
+        // Lógica para manejar la presentación del formulario
+        console.log('Formulario válido. Datos:', this.formulario.value);
+        // Agrega aquí la lógica para enviar o procesar los datos
+        this.vehiculo = { ...this.vehiculo, ...this.formulario.value };
+        console.log(this.vehiculo)
 
-      this.registrarVehiculo();
+        if(await this.registrarVehiculo()){
+
+          this.contratoExistente = false;
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Vehículo registrado',
+            text: 'El token del vehículo es: ' + this.tokenContrato
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al registrar vehículo'
+          });
+        }
+
+      } finally {
+        this.ngxLoader.stop();
+      }
     }
   }
 
@@ -131,7 +152,7 @@ export class RegistrarComponent implements OnInit {
   }
 
   async registrarVehiculo(){
-    this.web3Service.llenarDatosVehiculo(this.tokenContrato, this.vehiculo, this.formulario.get('precio')?.value);
+    return this.web3Service.llenarDatosVehiculo(this.tokenContrato, this.vehiculo, this.formulario.get('precio')?.value);
   }
 
   construirFormulario() {
@@ -151,7 +172,7 @@ export class RegistrarComponent implements OnInit {
       capacidad: ['', Validators.required],
       servicio: ['', Validators.required],
       carroceria: ['', Validators.required],
-      precio: [0, Validators.required]
+      precio: [, Validators.required]
     });
 
     this.formularioConsultaContrato = this.formBuilder.group({

@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
 import Web3 from 'web3';
-import configuration from '../../../build/contracts/Tickets.json';
 import vehiculoContract from '../../../build/contracts/VehiculoContract.json';
 import { AbiItem } from 'web3-utils'
 import { BehaviorSubject } from 'rxjs';
-import { ABI, BYTECODE } from 'src/assets/constantes/contrato-vehiculo.constants';
 import { Vehiculo } from '../models/vehiculo.model';
-import Swal from 'sweetalert2';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 declare let window: any;
@@ -17,7 +14,6 @@ declare let window: any;
 export class Web3Service {
   private web3: Web3;
   addressUser: any = new BehaviorSubject<string>('');
-  // CONTRACT_ADDRESS = configuration.networks['1337'].address;
   VEHICULO_CONTRACT_ADRESS = vehiculoContract.networks['1337'].address;
 
   constructor(private ngxLoader: NgxUiLoaderService) {
@@ -27,33 +23,8 @@ export class Web3Service {
   async llenarDatosVehiculo(direccionContrato: string, vehiculo: Vehiculo, precio: number){
     
     const contrato = this.obtenerContratoPorDireccionIngresada(direccionContrato);
-    console.log("Cuenta:", await this.getAccount())
-    console.log("CONTRACT_ADDRESS:", this.VEHICULO_CONTRACT_ADRESS)
-
-      /* Descomentar este bloque para desplegar un contrato con el BYTECODE */
-      // const contrato = this.obtenerContratoConABI();
-      // const deployedContract = await contrato.deploy({
-      //   data: BYTECODE,
-      //   // arguments: [/* Parámetros del constructor, si los hay */],
-      // })
-      //   .send({
-      //     from: await this.getAccount(),
-      //     gas: 1500000, // Limite de gas
-      //     gasPrice: '30000000000', // Precio del gas
-      //   });
-
-      
-      // Descomentar este bloque para llenar la info del propietario
-      // deployedContract.methods.setOwnerInfo('pepe', 123456789)
-      // .send({ from: await this.getAccount() })
-      // .on('confirmation', async (confirmationNumber: any, receipt: any) => {
-      //   console.log("Cantidad de propietarios: ", await deployedContract.methods.getOwnershipHistoryCount().call())
-      // })
-
       try {
 
-        // Mostrar el indicador de carga
-        this.ngxLoader.start();
         const datosBasicosPromesa = this.llenarDatosBasicosVehiculo(contrato, vehiculo);
         const detallesPromesa = this.llenarDetallesVehiculo(contrato, vehiculo);
         const precioVenta = this.asignarPrecioVenta(contrato, precio);
@@ -61,46 +32,12 @@ export class Web3Service {
         // Esperar a que ambas promesas se resuelvan
         await Promise.all([datosBasicosPromesa, detallesPromesa, precioVenta]);
 
-        // Ambos métodos se han ejecutado correctamente
-        Swal.fire({
-          icon: 'success',
-          title: 'Vehículo registrado',
-          text: 'El token del vehículo es: ' + contrato.options.address
-        });
+        return true;
+        
       } catch (error) {
         // Manejar errores si es necesario
-        console.error('Error al registrar vehículo:', error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error al registrar vehículo'
-        });
-      } finally {
-        // Ocultar el indicador de carga
-        this.ngxLoader.stop();
+        return false;
       }
-
-      // deployedContract.methods
-      //   .setVehicleInfo('Mazda', '3')
-      //   .send({ from: await this.getAccount() })
-      //   .on('confirmation', async (confirmationNumber: any, receipt: any) => {
-          
-      //   console.log("Marca vehículo: ", await deployedContract.methods.getVehicleInfo().call())
-      //   })
-      // .on('transactionHash', (hash: any) => {
-      //   console.log('Transaction Hash:', hash);
-      // })
-      // .on('confirmation', (confirmationNumber: any, receipt: any) => {
-      //   console.log('Confirmation Number:', confirmationNumber);
-      //   console.log('Receipt:', receipt);
-      // })
-      // .on('error', (error: any) => {
-      //   console.error('Error:', error);
-      // });
-      
-      console.log("Dirección contrato: ", contrato.options.address)
-      console.log("Contrato: ", contrato)    
-      
-      // return deployedContract.options.address;
   }
 
   async asignarPrecioVenta(contrato: any, precioVenta: number){
@@ -170,27 +107,17 @@ export class Web3Service {
     });
   }
 
-  // obtenerContratoConABI() {
-  //   return new this.web3.eth.Contract(ABI as AbiItem[]);
-  // }
-
   obtenerContratoPorDireccion() {
-    // const CONTRACT_ABI = configuration.abi;
     const ABI_VEHICULO_CONTRACT = vehiculoContract.abi;
 
     return new this.web3.eth.Contract(ABI_VEHICULO_CONTRACT as AbiItem[], this.VEHICULO_CONTRACT_ADRESS);
   }
 
   obtenerContratoPorDireccionIngresada(direccionContrato: string) {
-    // const CONTRACT_ABI = configuration.abi;
     const ABI_VEHICULO_CONTRACT = vehiculoContract.abi;
 
     return new this.web3.eth.Contract(ABI_VEHICULO_CONTRACT as AbiItem[], direccionContrato);
   }
-
-  // async requestAccounts() {
-  //   return await this.web3.eth.requestAccounts();
-  // }
 
   async getAccount(): Promise<string> {
     const accounts = await this.web3.eth.requestAccounts();    
@@ -258,8 +185,8 @@ export class Web3Service {
         value: this.web3.utils.toWei(precioVenta.toString(), 'ether'),
       });
     } catch (error) {
-      // return '';
-      throw error;
+      return '';
+      // throw error;
     }
   }
 
@@ -290,8 +217,63 @@ export class Web3Service {
     const contrato = this.obtenerContratoPorDireccionIngresada(direccionContrato);
 
     try {
-      const precio = await contrato.methods.propietario().call()
-      return precio
+      const propietario = await contrato.methods.propietario().call();
+      return propietario;
+    } catch (error) {
+      return '';
+      // throw error;
+    }
+  }
+
+  async obtenerEstadoVentaVehiculo(direccionContrato: string): Promise<any> {
+
+    const contrato = this.obtenerContratoPorDireccionIngresada(direccionContrato);
+
+    try {
+      const enVenta = await contrato.methods.enVenta().call();
+      return enVenta;
+    } catch (error) {
+      return '';
+      // throw error;
+    }
+  }
+
+  async obtenerHistorialPropietariosVehiculo(direccionContrato: string): Promise<any> {
+
+    try{
+
+      const contrato = this.obtenerContratoPorDireccionIngresada(direccionContrato);
+
+      const tamanoHistorial = await contrato.methods.obtenerTamanoHistorial().call();
+      const historialPropietarios = [];
+
+      for (let i = 0; i < tamanoHistorial; i++) {
+        const propietario = await contrato.methods.historialPropietarios(i).call();
+        historialPropietarios.push(propietario);
+      }
+      // const historialPropietarios = await contrato.methods.historialPropietarios(0).call();
+      return historialPropietarios;
+    } catch (error) {
+      return '';
+      // throw error;
+    }
+  }
+
+  async obtenerHistorialFechasEventosVehiculo(direccionContrato: string): Promise<any> {
+
+    try{
+
+      const contrato = this.obtenerContratoPorDireccionIngresada(direccionContrato);
+
+      const tamanoHistorial = await contrato.methods.obtenerTamanoHistorial().call();
+      const fechaEventos = [];
+
+      for (let i = 0; i < tamanoHistorial; i++) {
+        const propietario = await contrato.methods.fechaEventos(i).call();
+        fechaEventos.push(propietario);
+      }
+      
+      return fechaEventos;
     } catch (error) {
       return '';
       // throw error;

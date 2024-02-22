@@ -133,20 +133,39 @@
 
     <div class="form-row">
 
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" style="flex: 0.97;">
             <mat-label>Fecha de matrícula</mat-label>
             <input matInput placeholder="Fecha de matrícula" [value]="fechaMatricula"
                 [readonly]="true">
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" style="flex: 2;">
             <mat-label>Dirección de cuenta de organismo de tránsito</mat-label>
             <input matInput placeholder="Dirección de cuenta de organismo de tránsito" [value]="datosBasicosVehiculo[10]"
                 [readonly]="true">
         </mat-form-field>
 
-        <div class="empty-space"></div>
+    </div>
 
+    <div class="historial-container">
+
+        <h3>Historial de propietarios del vehículo</h3>
+
+        <table mat-table [dataSource]="historialVehiculo" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="propietario">
+                <th mat-header-cell *matHeaderCellDef> Propietario </th>
+                <td mat-cell *matCellDef="let element"> {{ element.propietario }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fecha">
+                <th mat-header-cell *matHeaderCellDef> Fecha </th>
+                <td mat-cell *matCellDef="let element"> {{ element.fecha | date: 'dd/MM/yyyy' }} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="['propietario', 'fecha']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['propietario', 'fecha']"></tr>
+        </table>
     </div>
 
     <div class="form-row">

@@ -119,3 +119,30 @@ mat-form-field {
 .form-row mat-form-field:last-child .empty-space {
     margin-right: 0; /* Ajusta este valor para que coincida con el margen de mat-form-field */
 }
+
+.historial-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Ajusta según sea necesario */
+    margin-right: auto;
+    width: 100%;
+    /* Ajusta según sea necesario */
+    max-width: 900px;
+    /* Ajusta según sea necesario */
+    margin-bottom: 35px;
+}
+
+/* Ajusta el ancho de la tabla según tus necesidades */
+.mat-elevation-z8 {
+    width: 100%;
+    box-shadow: none;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background-color: #fafafa;
+}
+
+.historial-container h3 {
+    margin-bottom: 0;
+    font-size: 13px;
+    color: #616161;
+}
