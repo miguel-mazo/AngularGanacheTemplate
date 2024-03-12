@@ -106,12 +106,6 @@ export class Web3Service {
     });
   }
 
-  obtenerContratoPorDireccion() {
-    const ABI_VEHICULO_CONTRACT = vehiculoContract.abi;
-
-    return new this.web3.eth.Contract(ABI_VEHICULO_CONTRACT as AbiItem[], this.VEHICULO_CONTRACT_ADRESS);
-  }
-
   obtenerContratoPorDireccionIngresada(direccionContrato: string) {
     const ABI_VEHICULO_CONTRACT = vehiculoContract.abi;
 
