@@ -27,7 +27,7 @@ export class VenderComponent implements OnInit {
   constructor(private web3Service: Web3Service, private formBuilder: FormBuilder, private ngxLoader: NgxUiLoaderService, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
-    this.construirFormulario();    
+    this.construirFormulario();
   }
 
   construirFormulario() {
@@ -45,10 +45,7 @@ export class VenderComponent implements OnInit {
       this.mostrarFormularioVenta = false;
       this.datosBasicosVehiculo = [];
       this.detallesVehiculo = [];
-      // Lógica para manejar la presentación del formulario
-      console.log('Formulario válido. Datos:', this.formularioVender.value);
-      // Agrega aquí la lógica para enviar o procesar los datos
-      const token =  this.formularioVender.get('token');
+      const token = this.formularioVender.get('token');
       this.token = token?.value
       this.obtenerDatosVehiculo();
     }
@@ -61,14 +58,13 @@ export class VenderComponent implements OnInit {
     this.direccionPropietarioActual = await this.obtenerDireccionPropietarioActual();
     await Promise.all([this.direccionPropietarioActual]);
 
-    this.validarPropietario();    
+    this.validarPropietario();
   }
 
   async obtenerDatosBasicosVehiculo() {
     try {
       this.datosBasicosVehiculo = await this.web3Service.obtenerDatosBasicosVehiculo(this.token);
       this.fechaMatricula = this.datePipe.transform(this.datosBasicosVehiculo[9] * 1000, 'dd/MM/yyyy') || '';
-      console.log("Desde el vender datosVehiculo es:", this.datosBasicosVehiculo)
     } catch (error) {
       this.datosBasicosVehiculo = [];
       Swal.fire({
@@ -76,27 +72,22 @@ export class VenderComponent implements OnInit {
         title: '¡Vehículo no registrado!',
         text: 'El vehículo asociado al token ' + this.token + ' aún no ha sido registrado'
       });
-      // console.error('Error al obtener datos del vehículo:', error);
     }
   }
 
   async obtenerDetallesVehiculo() {
     try {
       this.detallesVehiculo = await this.web3Service.obtenerDetallesVehiculo(this.token);
-      console.log("Desde el vender datosVehiculo es:", this.detallesVehiculo)
     } catch (error) {
       this.detallesVehiculo = [];
-      // console.error('Error al obtener detalles del vehículo:', error);
     }
   }
 
-  async enviarFormularioAsignarPrecio(){
+  async enviarFormularioAsignarPrecio() {
     if (this.formularioPrecio.valid) {
-      try{
+      try {
         this.ngxLoader.start();
-        console.log('Formulario válido. Datos:', this.formularioVender.value);
-        // Agrega aquí la lógica para enviar o procesar los datos
-        const token =  this.formularioVender.get('token');
+        const token = this.formularioVender.get('token');
         this.token = token?.value;
         this.precioVehiculo = this.formularioPrecio.get('precio')?.value;
 
@@ -113,27 +104,27 @@ export class VenderComponent implements OnInit {
         this.datosBasicosVehiculo = [];
         this.detallesVehiculo = [];
         this.mostrarFormularioVenta = false;
-        
+
       } finally {
         this.ngxLoader.stop();
       }
     }
   }
 
-  async obtenerDireccionPropietarioActual(){
+  async obtenerDireccionPropietarioActual() {
     return this.web3Service.obtenerPropietarioVehiculo(this.token);
   }
 
-  async validarPropietario(){
-    const cuentaActual = await this.web3Service.getAccount();
+  async validarPropietario() {
+    const cuentaActual = await this.web3Service.obtenerCuenta();
 
-    if(cuentaActual !== this.direccionPropietarioActual){
+    if (cuentaActual !== this.direccionPropietarioActual) {
       Swal.fire({
         icon: 'error',
         title: '¡Error al vender el vehículo!',
         text: 'El vehículo asociado al token ' + this.token + ' no es de su propiedad'
       });
-    } else{
+    } else {
       this.mostrarFormularioVenta = true;
     }
   }

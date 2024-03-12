@@ -57,13 +57,9 @@ export class RegistrarComponent implements OnInit {
     if (this.formulario.valid) {
       try {
         this.ngxLoader.start();
-        // Lógica para manejar la presentación del formulario
-        console.log('Formulario válido. Datos:', this.formulario.value);
-        // Agrega aquí la lógica para enviar o procesar los datos
         this.vehiculo = { ...this.vehiculo, ...this.formulario.value };
-        console.log(this.vehiculo)
 
-        if(await this.registrarVehiculo()){
+        if (await this.registrarVehiculo()) {
 
           this.contratoExistente = false;
 
@@ -105,23 +101,17 @@ export class RegistrarComponent implements OnInit {
         carroceria: '',
         combustible: '',
       };
-      // Lógica para manejar la presentación del formulario
-      console.log('Formulario válido. Token:', this.formularioConsultaContrato.value);
-      // Agrega aquí la lógica para enviar o procesar los datos
-      const token =  this.formularioConsultaContrato.get('token');
+      const token = this.formularioConsultaContrato.get('token');
       this.tokenContrato = token?.value
       this.consultarContrato();
     }
   }
 
-  async consultarContrato(){
+  async consultarContrato() {
 
     try {
       this.contrato = this.web3Service.obtenerContratoPorDireccionIngresada(this.tokenContrato);
-      console.log("Contrato: ", this.contrato)
       const cantidadPropietariosContrato = await this.contrato.methods.obtenerTamanoHistorial().call();
-      console.log("cantidad propietarios:", cantidadPropietariosContrato)      
-
       this.contratoExistente = true;
     } catch (error) {
       this.contratoExistente = false;
@@ -147,11 +137,10 @@ export class RegistrarComponent implements OnInit {
         title: '¡Contrato no creado!',
         text: 'El contrato con dirección ' + this.tokenContrato + ' aún no ha sido creado'
       });
-      // console.error('Error al obtener datos del vehículo:', error);
     }
   }
 
-  async registrarVehiculo(){
+  async registrarVehiculo() {
     return this.web3Service.llenarDatosVehiculo(this.tokenContrato, this.vehiculo, this.formulario.get('precio')?.value);
   }
 

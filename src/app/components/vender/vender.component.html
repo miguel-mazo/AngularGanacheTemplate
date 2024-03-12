@@ -37,14 +37,12 @@
 
             <mat-form-field appearance="outline">
                 <mat-label>Número de motor</mat-label>
-                <input matInput placeholder="Número de motor"
-                    [value]="datosBasicosVehiculo[1]" [readonly]="true">
+                <input matInput placeholder="Número de motor" [value]="datosBasicosVehiculo[1]" [readonly]="true">
             </mat-form-field>
 
             <mat-form-field appearance="outline">
                 <mat-label>Número de chasis</mat-label>
-                <input matInput placeholder="Número de chasis"
-                    [value]="datosBasicosVehiculo[2]" [readonly]="true">
+                <input matInput placeholder="Número de chasis" [value]="datosBasicosVehiculo[2]" [readonly]="true">
             </mat-form-field>
 
         </div>
@@ -77,13 +75,12 @@
 
             <mat-form-field appearance="outline">
                 <mat-label>Modelo</mat-label>
-                <input matInput placeholder="Modelo"  [value]="datosBasicosVehiculo[7]"
-                    [readonly]="true">
+                <input matInput placeholder="Modelo" [value]="datosBasicosVehiculo[7]" [readonly]="true">
             </mat-form-field>
 
             <mat-form-field appearance="outline">
                 <mat-label>Color</mat-label>
-                <input matInput placeholder="Color"  [value]="datosBasicosVehiculo[8]" [readonly]="true">
+                <input matInput placeholder="Color" [value]="datosBasicosVehiculo[8]" [readonly]="true">
             </mat-form-field>
 
         </div>
@@ -92,20 +89,17 @@
 
             <mat-form-field appearance="outline">
                 <mat-label>Combustible</mat-label>
-                <input matInput placeholder="Combustible" [value]="detallesVehiculo[0]"
-                    [readonly]="true">
+                <input matInput placeholder="Combustible" [value]="detallesVehiculo[0]" [readonly]="true">
             </mat-form-field>
 
             <mat-form-field appearance="outline">
                 <mat-label>Cilindraje</mat-label>
-                <input matInput placeholder="Cilindraje" [value]="detallesVehiculo[1]"
-                    [readonly]="true">
+                <input matInput placeholder="Cilindraje" [value]="detallesVehiculo[1]" [readonly]="true">
             </mat-form-field>
 
             <mat-form-field appearance="outline">
                 <mat-label>Potencia</mat-label>
-                <input matInput placeholder="Potencia" [value]="detallesVehiculo[2]"
-                    [readonly]="true">
+                <input matInput placeholder="Potencia" [value]="detallesVehiculo[2]" [readonly]="true">
             </mat-form-field>
 
         </div>
@@ -114,47 +108,43 @@
 
             <mat-form-field appearance="outline">
                 <mat-label>Capacidad</mat-label>
-                <input matInput placeholder="Capacidad" [value]="detallesVehiculo[3]"
-                    [readonly]="true">
+                <input matInput placeholder="Capacidad" [value]="detallesVehiculo[3]" [readonly]="true">
             </mat-form-field>
 
             <mat-form-field appearance="outline">
                 <mat-label>Servicio</mat-label>
-                <input matInput placeholder="Servicio" [value]="detallesVehiculo[4]"
-                    [readonly]="true">
+                <input matInput placeholder="Servicio" [value]="detallesVehiculo[4]" [readonly]="true">
             </mat-form-field>
 
             <mat-form-field appearance="outline">
                 <mat-label>Carrocería</mat-label>
-                <input matInput placeholder="Carrocería" [value]="detallesVehiculo[5]"
-                    [readonly]="true">
+                <input matInput placeholder="Carrocería" [value]="detallesVehiculo[5]" [readonly]="true">
             </mat-form-field>
 
         </div>
 
         <div class="form-row">
 
-            <mat-form-field appearance="outline" style="flex: 0.97;">
+            <mat-form-field appearance="outline" class="form-field-fecha-matricula">
                 <mat-label>Fecha de matrícula</mat-label>
-                <input matInput placeholder="Fecha de matrícula" [value]="fechaMatricula"
-                    [readonly]="true">
+                <input matInput placeholder="Fecha de matrícula" [value]="fechaMatricula" [readonly]="true">
             </mat-form-field>
 
-            <mat-form-field appearance="outline" style="flex: 2;">
+            <mat-form-field appearance="outline" class="form-field-direccion-OT">
                 <mat-label>Dirección de cuenta de organismo de tránsito</mat-label>
-                <input matInput placeholder="Dirección de cuenta de organismo de tránsito" [value]="datosBasicosVehiculo[10]"
-                    [readonly]="true">
+                <input matInput placeholder="Dirección de cuenta de organismo de tránsito"
+                    [value]="datosBasicosVehiculo[10]" [readonly]="true">
             </mat-form-field>
 
         </div>
 
-        <div class="form-row" >
+        <div class="form-row">
 
             <div class="empty-space"></div>
 
             <mat-form-field appearance="outline">
                 <mat-label>Precio</mat-label>
-                <input matInput type="number" placeholder="Precio" formControlName="precio"  required>
+                <input matInput type="number" placeholder="Precio" formControlName="precio" required>
                 <span matSuffix>ETH</span>
                 <mat-error *ngIf="formularioPrecio.get('precio')!.hasError('required')">
                     {{ ERROR_CAMPO_OBLIGATORIO }}
@@ -166,13 +156,13 @@
         </div>
 
         <div class="form-row">
-        
+
             <div class="empty-space"></div>
-        
+
             <button class="btn btn-primary" type="submit">Vender vehículo</button>
-        
+
             <div class="empty-space"></div>
-        
+
         </div>
 
     </div>

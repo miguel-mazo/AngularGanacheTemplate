@@ -27,10 +27,6 @@ h1 {
     padding: 0 1rem;
 }
 
-/* h2 {
-    padding: 1rem;
-} */
-
 mat-toolbar {
     position: fixed;
     top: 0;
@@ -41,7 +37,6 @@ mat-sidenav-container {
     height: 100%;
 }
 
-/* Mueve el contenido hacia abajo para que no sea ocultado por la barra de herramientas */
 mat-sidenav {
     padding-top: 3.5rem;
     transition: width 0.3s ease;
@@ -53,7 +48,6 @@ mat-sidenav {
     }
 }
 
-/* Mueve el contenido hacia abajo para que no sea ocultado por la barra de herramientas */
 mat-sidenav-content {
     padding-top: 3.5rem;
 }
@@ -68,7 +62,6 @@ mat-sidenav-content {
     width: 250px;
 }
 
-/* Estilos específicos para la clase .entry dentro de mat-sidenav */
 mat-sidenav .entry {
     display: flex;
     align-items: center;
@@ -79,7 +72,6 @@ mat-sidenav .entry {
 .form-container {
     width: 100%;
     max-width: 960px;
-    /* Ajusta este valor según el ancho deseado del formulario */
     margin: auto;
     padding: 20px;
 }
@@ -88,52 +80,37 @@ mat-sidenav .entry {
     display: flex;
     justify-content: space-between;
     margin-bottom: 1px;
-    /* Este será el espacio vertical entre las filas */
 }
 
 mat-form-field {
     flex: 1;
-    /* Los campos de formulario crecen para llenar el espacio disponible */
     margin-right: 20px;
-    /* Este será el espacio horizontal entre los campos */
 }
-
-/* Ajusta el margen derecho del último campo de cada fila para que sea 0 */
-/* .form-row mat-form-field:last-child {
-    margin-right: 0;
-} */
 
 .form-title {
     text-align: center;
-    /* Centra el texto del título */
     margin-bottom: 30px;
-    /* Espacio entre el título y la primera fila de campos */
 }
 
 .empty-space {
     flex: 1;
-    margin-right: 20px; /* Ajusta este valor para que coincida con el margen de mat-form-field */
+    margin-right: 20px;
 }
 
-/* Ajusta el margen derecho del último campo de cada fila para que sea 0 */
 .form-row mat-form-field:last-child .empty-space {
-    margin-right: 0; /* Ajusta este valor para que coincida con el margen de mat-form-field */
+    margin-right: 0;
 }
 
 .historial-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Ajusta según sea necesario */
     margin-right: auto;
     width: 100%;
-    /* Ajusta según sea necesario */
     max-width: 900px;
-    /* Ajusta según sea necesario */
     margin-bottom: 35px;
 }
 
-/* Ajusta el ancho de la tabla según tus necesidades */
 .mat-elevation-z8 {
     width: 100%;
     box-shadow: none;
@@ -145,4 +122,27 @@ mat-form-field {
     margin-bottom: 0;
     font-size: 13px;
     color: #616161;
+}
+
+.form-field-fecha-matricula {
+    flex: 0.97;
+}
+
+.form-field-direccion-OT {
+    flex: 2;
+}
+
+.account-position-tooltip {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: auto;
+}
+
+.account-icon-tooltip {
+    margin-right: 8px;
+}
+
+.account-font-size {
+    font-size: 80%;
 }

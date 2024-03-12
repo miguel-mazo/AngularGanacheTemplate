@@ -2,7 +2,6 @@ import { Component, OnInit, PipeTransform } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { HistorialVehiculo } from 'src/app/models/historial-vehiculo.model';
-import { Vehiculo } from 'src/app/models/vehiculo.model';
 import { Web3Service } from 'src/app/services/web3.service';
 import { CAMPO_OBLIGATORIO } from 'src/assets/constantes/errores.constants';
 import Swal from 'sweetalert2';
@@ -44,10 +43,7 @@ export class ComprarComponent implements OnInit {
       this.vehiculoExistente = false;
       this.datosBasicosVehiculo = [];
       this.detallesVehiculo = [];
-      // Lógica para manejar la presentación del formulario
-      console.log('Formulario válido. Datos:', this.formularioComprar.value);
-      // Agrega aquí la lógica para enviar o procesar los datos
-      const token =  this.formularioComprar.get('token');
+      const token = this.formularioComprar.get('token');
       this.token = token?.value
       this.obtenerDatosVehiculo();
     }
@@ -60,19 +56,14 @@ export class ComprarComponent implements OnInit {
     const fechaEventos = await this.web3Service.obtenerHistorialFechasEventosVehiculo(this.token);
     await Promise.all([this.direccionPropietarioActual, propietarios, fechaEventos]);
 
-    console.log("historial: ", propietarios)
-    console.log("fechas: ", fechaEventos)
-    
     this.historialVehiculo = propietarios.slice(1).map((propietario: any, index: string | number) => ({
       propietario,
-      fecha: new Date(fechaEventos[index]*1000)
+      fecha: new Date(fechaEventos[index] * 1000)
     }));
 
-    console.log("objeto Historial: ",  this.historialVehiculo)
+    if (await this.validarPropietario()) {
 
-    if(await this.validarPropietario()){
-
-      if(!(await this.validarEstadoVentaVehiculo())){
+      if (!(await this.validarEstadoVentaVehiculo())) {
 
         this.vehiculoExistente = false;
         this.datosBasicosVehiculo = [];
@@ -96,7 +87,6 @@ export class ComprarComponent implements OnInit {
     try {
       this.datosBasicosVehiculo = await this.web3Service.obtenerDatosBasicosVehiculo(this.token);
       this.fechaMatricula = this.datePipe.transform(this.datosBasicosVehiculo[9] * 1000, 'dd/MM/yyyy') || '';
-      console.log("Desde el comprar datosVehiculo es:", this.datosBasicosVehiculo)
       this.vehiculoExistente = true;
     } catch (error) {
       this.datosBasicosVehiculo = [];
@@ -105,36 +95,31 @@ export class ComprarComponent implements OnInit {
         title: '¡Vehículo no registrado!',
         text: 'El vehículo asociado al token ' + this.token + ' aún no ha sido registrado'
       });
-      // console.error('Error al obtener datos del vehículo:', error);
     }
   }
 
   async obtenerDetallesVehiculo() {
     try {
       this.detallesVehiculo = await this.web3Service.obtenerDetallesVehiculo(this.token);
-      console.log("Desde el comprar datosVehiculo es:", this.detallesVehiculo)
     } catch (error) {
       this.detallesVehiculo = [];
-      // console.error('Error al obtener detalles del vehículo:', error);
     }
   }
 
   async obtenerPrecioVehiculo() {
     try {
       this.precioVehiculo = await this.web3Service.obtenerPrecioVehiculo(this.token);
-      console.log("Desde el comprar el precio es:", this.precioVehiculo)
     } catch (error) {
       this.precioVehiculo = 0;
-      // console.error('Error al obtener detalles del vehículo:', error);
     }
   }
 
-  async comprarVehiculo(){
+  async comprarVehiculo() {
     try {
       this.ngxLoader.start();
       const respuestaComprar = this.web3Service.comprarVehiculo(this.token);
       await Promise.all([respuestaComprar]);
-      
+
       Swal.fire({
         icon: 'success',
         title: '¡Vehículo comprado!',
@@ -150,16 +135,14 @@ export class ComprarComponent implements OnInit {
     }
   }
 
-  async obtenerDireccionPropietarioActual(){
+  async obtenerDireccionPropietarioActual() {
     return this.web3Service.obtenerPropietarioVehiculo(this.token);
   }
 
-  async validarPropietario(){
-    const cuentaActual = await this.web3Service.getAccount();
+  async validarPropietario() {
+    const cuentaActual = await this.web3Service.obtenerCuenta();
 
-    if(cuentaActual === this.direccionPropietarioActual){
-
-      // this.vehiculoExistente = false;
+    if (cuentaActual === this.direccionPropietarioActual) {
 
       Swal.fire({
         icon: 'error',
@@ -168,14 +151,12 @@ export class ComprarComponent implements OnInit {
       });
 
       return false;
-    } else{
-      // this.vehiculoExistente = true;
-
+    } else {
       return true;
     }
   }
 
-  async validarEstadoVentaVehiculo(){
+  async validarEstadoVentaVehiculo() {
     return await this.web3Service.obtenerEstadoVentaVehiculo(this.token);
   }
 }
